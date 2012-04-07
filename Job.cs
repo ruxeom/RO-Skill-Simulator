@@ -4,7 +4,7 @@ using System.Collections;
 using System.Linq;
 using System.Text;
 
-namespace WindowsFormsApplication1
+namespace SkillSimulator
 {
     class Job
     {

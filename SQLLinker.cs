@@ -6,7 +6,7 @@ using System.Text;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 
-namespace WindowsFormsApplication1
+namespace SkillSimulator
 {
     class SQLLinker
     {
