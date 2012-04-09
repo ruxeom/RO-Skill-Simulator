@@ -8,38 +8,71 @@ namespace SkillSimulator
 {
     class Job
     {
-        public ArrayList skills = new ArrayList();
-        public String name;
-
+        //public List<Skill> Skills = new List<Skill>();
+        private Dictionary<int, Skill> SkillDictionary;
+        public String Name;
+        public int UsedSkillPoints
+        {
+            get 
+            {
+                int temp = 0;
+                foreach (Skill skill in SkillDictionary.Values)
+                {
+                    temp += skill.Currentlvl;
+                }
+                return temp;
+            }
+        }
 
         public Job()
         {
-            
+            Skill[] a = SkillDictionary.Values.ToArray<Skill>();
         }
         
         public Job(String name)
         {
-            this.name = name;
+            this.Name = name;
         }
 
-        public Skill get_skill(String skill)
+        public Skill GetSkill(String skill)
         {
-            foreach(Skill s in skills)
+            foreach(Skill s in SkillDictionary.Values.ToArray<Skill>())
             {
-                Skill aux = s;
-                if (String.ReferenceEquals(aux.Name, skill))
-                    return aux;
+                if (String.ReferenceEquals(s.Name, skill))
+                    return s;
             }
             return null;
         }
 
-        public void connect(String skill, String requiredskill, int lvl)
+        public Skill GetSkill(int skillid)
         {
-            Skill s = get_skill(skill);
-            Skill r = get_skill(requiredskill);
-            s.add_req(new Tuple<String, int>(requiredskill, lvl));
-            //s.link(r);
-            r.add_next(s);
+            return SkillDictionary[skillid];
+        }
+
+        public void AddSkills(List<Skill> list)
+        {
+            foreach (Skill skill in list)
+            {
+                AddSkill(skill);
+            }
+        }
+
+        public void AddSkill(Skill skill)
+        {
+            SkillDictionary.Add(skill.ID, skill);
+        }
+
+        public void AddReqToSkill(int dependentskill, int requiredskill, int lvl)
+        {
+            Skill d = GetSkill(dependentskill);
+            Skill r = GetSkill(requiredskill);
+            d.AddRequirement(r, lvl);
+            r.AddDependency(d);
+        }
+
+        public void BuildRequirements(ArrayList requirements)
+        {
+ 
         }
     }
 }

@@ -7,8 +7,8 @@ namespace SkillSimulator
 {
     class Tuple <T, U>
     {
-        public T key;
-        public U value;
+        public T Key;
+        public U Value;
 
         public Tuple()
         {
@@ -17,16 +17,8 @@ namespace SkillSimulator
 
         public Tuple(T t, U u)
         {
-            key = t;
-            value = u;
-        }
-        static int main()
-        {
-            Tuple<int, String> tup = new Tuple<int, String>();
-            Tuple<int, String> tus = new Tuple<int, String>(5, "h");
-            Console.WriteLine();
-            
-            return 0;
+            Key = t;
+            Value = u;
         }
     }
 }

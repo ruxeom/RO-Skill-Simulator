@@ -14,8 +14,6 @@ namespace SkillSimulator
 
         protected DBConnectionManager() {}
 
-        //public static DBConnectionManager Instance;       //Implement singleton
-
         public virtual ArrayList GetSkills(string jobname) 
         {
             Object procedure = CreateProcedure("get_skills", jobname);
@@ -23,11 +21,18 @@ namespace SkillSimulator
             return skilldata;
         }
 
-        public virtual ArrayList Get_Skill_Tree(string jobname) 
+        public virtual ArrayList GetSkillTree(string jobname) 
         {
             Object procedure = CreateProcedure("get_skill_tree", jobname);
             ArrayList skilltreedata = ExecuteProcedure(procedure);
             return skilltreedata;
+        }
+
+        public virtual ArrayList GetSkillRequirements(string jobname)
+        {
+            Object procedure = CreateProcedure("get_skill_reqs", jobname);
+            ArrayList requirements = ExecuteProcedure(procedure);
+            return requirements;
         }
 
         public virtual int GetSkillPoints(string jobname) 

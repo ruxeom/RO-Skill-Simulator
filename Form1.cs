@@ -129,7 +129,7 @@ namespace SkillSimulator
             {
                 String name = (String)row[1];
                 short maxlvl = (short)row[2];
-                Skill skill = new Skill(name, maxlvl);
+                Skill skill = new Skill(0,name, maxlvl);
                 extra.Add(skill);
             }
             return extra;

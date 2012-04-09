@@ -11,7 +11,7 @@ namespace SkillSimulator
 {
     public class SQLExpressConnectionManager : DBConnectionManager
     {
-        //public SQLExpressConnectionManager() { }
+        private SQLExpressConnectionManager() { }
 
         public static DBConnectionManager Instance 
         {

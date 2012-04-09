@@ -8,86 +8,84 @@ namespace SkillSimulator
 {
     class Skill
     {
-        public String Name;
-        public int Maxlvl;
-        public int Currentlvl = 0;
-        private ArrayList Reqvalues = new ArrayList();          //tuple array of req data (string/int)
-        private ArrayList reqs = new ArrayList();               //an array connecting to the req skills(skill objects)
-        private ArrayList dependent = new ArrayList();          //an array of skills that depend on this one (skill objects)
 
-        public Skill(String name, int max)            //constructor
+        public String Name;
+        //A list containing Skill/RequieredLevel pairs
+        private List<Tuple<Skill, int>> RequiredSkills = new List<Tuple<Skill, int>>();
+        //A list of skills that depend on this one
+        private List<Skill> DependentSkills = new List<Skill>();
+        private int _ID;
+        private int _Maxlvl;
+        private int _Currentlvl = 0;
+        public int ID { get { return _ID; } }
+        public int Maxlvl { get { return _Maxlvl; } }
+        public int Currentlvl { get { return _Currentlvl; } }
+
+        public Skill(int id, String name, int max)            //constructor
         {
+            this._ID = id;
             this.Name = name;
-            this.Maxlvl = max;
+            this._Maxlvl = max;
         }
 
-        public void set_lvl(int lvl)                    //recursively check integrity of the tree 
+        public void SetLevel(int level)                    //recursively check integrity of the tree 
         {                                               //while inserting
-            if (lvl > 0 && lvl <= this.Maxlvl)
+            if (level >= 0 && level <= _Maxlvl)
             {
-                Currentlvl = lvl;
-                fix_reqs();
-                foreach (Skill skill in dependent)
+                int prevlvl = _Currentlvl;
+                _Currentlvl = level;
+                if (prevlvl == 0 && level > 0)
                 {
-                    if (skill.lvl_is_ok(this))
-                        break;
-                    else
-                        skill.set_lvl(0);
+                    FixRequirements();
+                }
+                else if (prevlvl > level)
+                {
+                    FixDependencies();
                 }
             }
-        }
+        }        
 
-        public void add_req(Tuple<String, int> tup)     //add a tuple of name and lvl of a pre req
-        {   
-            Reqvalues.Add(tup);
-        }
-
-        /*public void link(Skill req)                     //add a skill object of a requisite
+        public void FixRequirements()                          //fix pre reqs in order to set this one
         {
-            reqs.Add(req);
-        }*/
-
-        public int get_req_lvl(Skill skill)             //get the required pre req skill lvl(int)
-        {
-            Boolean done= false;
-            int a = 0;
-            Tuple<String, int> aux = new Tuple<String, int>();
-            while(!done)
+            foreach (Tuple<Skill, int> req in RequiredSkills)
             {
-                aux = (Tuple<String, int>)Reqvalues[a];
-                if (String.ReferenceEquals(aux.key, skill.Name))
-                    done = true;
-                a++;
+                if (!SkillLevelOk(req.Key, req.Value))
+                    req.Key.SetLevel(req.Value);
             }
-            return aux.value;
         }
 
-        public void fix_reqs()                          //fix pre reqs in order to set this one
+        public void FixDependencies()
         {
-            foreach (object r in reqs)
+            foreach (Tuple<Skill, int> req in RequiredSkills)
             {
-                Skill aux = (Skill)r;
-                if (lvl_is_ok(aux))
+                if (!SkillLevelOk(req.Key, req.Value))
+                {
+                    this._Currentlvl = 0;
                     break;
-                else
-                    aux.set_lvl(get_req_lvl(aux));
+                }
             }
-        }
 
-        public Boolean lvl_is_ok(Skill skill)
-        {
-            int needed = get_req_lvl(skill);
-            if (skill.Currentlvl >= needed)
-                return true;
-            else
+            foreach (Skill dep in DependentSkills)
             {
-                return false;
+                FixDependencies();
             }
         }
 
-        public void add_next(Skill next)                //add a dependent skill to the list
+        public Boolean SkillLevelOk(Skill skill, int reqlvl)
         {
-            this.dependent.Add(next);
+            if (skill._Currentlvl >= reqlvl)
+                return true;
+            return false;
+        }
+
+        public void AddRequirement(Skill reqskill, int reqlvl)     
+        {
+            RequiredSkills.Add(new Tuple<Skill, int>(reqskill, reqlvl));
+        }
+
+        public void AddDependency(Skill next)          
+        {
+            this.DependentSkills.Add(next);
         }
 
     }
