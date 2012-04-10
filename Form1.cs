@@ -23,14 +23,6 @@ namespace SkillSimulator
         {
             InitializeComponent();
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-            //ArrayList skills = get_tree_skills("Knight");
-            //short a = 0;
-            //foreach(Skill skill in skills)
-            //{
-            //    VisualSkill visual = new VisualSkill(skill.name, skill.maxlvl);
-            //    visual.setComponents(10 + 50 * a, panel1);
-            //    a++;
-            //}
 
         }
 
@@ -71,10 +63,16 @@ namespace SkillSimulator
                 foreach (Skill skill in skills)
                 {
                     VisualSkill visual = new VisualSkill(skill.Name, skill.Maxlvl);
-                    visual.setComponents(10 + 50 * a, panel1);
+                    visual.SetContainer(10 + 40 * a, panel1);
+                    visual.Changed += this.SkillModified;
                     a++;
                 }
             }
+        }
+
+        public void SkillModified(object sender, EventArgs e)
+        {
+            VisualSkill vs = (VisualSkill)sender;
         }
 
         public short get_job_id(String job)
@@ -139,43 +137,7 @@ namespace SkillSimulator
         {
         }
 
-        public class VisualSkill
-        {
-            public VisualSkill(String skillname, int maxlevel)
-            {
-                this.label.Text = skillname;
-                label.Height = 15;
-                label.Width = 200;
-                panel.Height = 40;
-                panel.Width = 380;
-                this.buttons = new RadioButton[maxlevel];
-            }
-
-            public Panel panel = new Panel();
-            public Label label = new Label();
-            public RadioButton[] buttons;
-            public int height;
-
-            public void setComponents(int height, Control parent)
-            {
-                panel.Location = new Point(5, height);
-                label.BackColor = Color.White;
-                panel.Controls.Add(label);
-                Font b = new Font("", (float)6.5);
-                for (int a = 0; a < buttons.Length; a++)
-                {
-                    buttons[a] = new RadioButton();
-                    buttons[a].Font = b;
-                    buttons[a].BackColor = Color.White;
-                    buttons[a].Text = "" + (a + 1);
-                    buttons[a].Location = new Point(4 + a * 35, 12);
-                    buttons[a].Width = 35;
-                    panel.Controls.Add(buttons[a]);
-                }
-                parent.Controls.Add(panel);
-
-            }
-        }
+        
 
         private void addNewSkillToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -190,6 +152,5 @@ namespace SkillSimulator
             sklinker.Show();
             this.Hide();
         }
-
     }
 }

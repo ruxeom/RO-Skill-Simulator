@@ -7,6 +7,6 @@ namespace SkillSimulator
 {
     interface SkillBuilder
     {
-        public Skill BuildSkill(object[] rawdata);
+        Skill BuildSkill(object[] rawdata);
     }
 }

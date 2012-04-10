@@ -11,7 +11,11 @@ namespace SkillSimulator
 
         public Skill BuildSkill(object[] rawdata)
         {
-            Skill skill = new Skill(0,"",0);
+            int id = (int)rawdata[0];
+            String name = (String)rawdata[1];
+            short maxlvl = (short)rawdata[2];
+            Skill skill = new Skill(id, name, maxlvl);
+            
             return skill;
         }
 

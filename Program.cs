@@ -16,8 +16,8 @@ namespace SkillSimulator
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
-            DBConnectionManager c = SQLExpressConnectionManager.Instance;
-            c.GetSkills("Mage");
+            //DBConnectionManager c = SQLExpressConnectionManager.Instance;
+            //c.GetSkills("Mage");
         }
     }
 }

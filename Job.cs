@@ -26,7 +26,7 @@ namespace SkillSimulator
 
         public Job()
         {
-            Skill[] a = SkillDictionary.Values.ToArray<Skill>();
+            //Skill[] a = SkillDictionary.Values.ToArray<Skill>();
         }
         
         public Job(String name)
@@ -51,6 +51,7 @@ namespace SkillSimulator
 
         public void AddSkills(List<Skill> list)
         {
+            SkillDictionary = new Dictionary<int, Skill>();
             foreach (Skill skill in list)
             {
                 AddSkill(skill);

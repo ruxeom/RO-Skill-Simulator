@@ -35,9 +35,11 @@ namespace SkillSimulator
 
         public override int GetTotalSkillPoints(string jobname)
         {
-            //managing individual parts of the objects received 
-            //may vary and will be left to implement
-            return 0;
+            Object procedure = CreateProcedure("get_total_skill_points", jobname);
+            ArrayList rawdata = ExecuteProcedure(procedure);
+            object[] row = (object[])rawdata[0];
+            int skillpoints = (int)row[0];
+            return skillpoints;
         }
 
         public override Object CreateProcedure(string procedurename, string param)
