@@ -17,6 +17,7 @@ namespace SkillSimulator
         public GraphManager()
         {
             DBManager = SQLExpressConnectionManager.Instance;
+            Builder = new SQLSkillBuilder();
         }
 
         public void AddJobName(string name)
@@ -24,7 +25,7 @@ namespace SkillSimulator
             CurrentJob.Name = name;
         }
 
-        public ArrayList GetSkills(string jobname)
+        private ArrayList GetSkills(string jobname)
         {
             ArrayList skills = DBManager.GetSkills(jobname);
             return skills;
@@ -48,14 +49,19 @@ namespace SkillSimulator
             return skills;
         }
 
-        private int GetMaxSkillPoints(string jobname)
+        public List<int[]> ModifySkillLevel(int skillid, int lvl)
+        {
+            return CurrentJob.ModifySkillLevel(skillid, lvl, null);
+        }
+
+        public int GetMaxSkillPoints(string jobname)
         {
             int skillpoints = DBManager.GetTotalSkillPoints(jobname);
             MaxSkillPoints = skillpoints;
             return skillpoints;
         }
 
-        public ArrayList GetSkillRequirements(string jobname)
+        private ArrayList GetSkillRequirements(string jobname)
         {
             return DBManager.GetSkillRequirements(jobname);
         }

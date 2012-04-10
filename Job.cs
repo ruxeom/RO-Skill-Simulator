@@ -25,9 +25,7 @@ namespace SkillSimulator
         }
 
         public Job()
-        {
-            //Skill[] a = SkillDictionary.Values.ToArray<Skill>();
-        }
+        { }
         
         public Job(String name)
         {
@@ -49,6 +47,22 @@ namespace SkillSimulator
             return SkillDictionary[skillid];
         }
 
+        public void ModifySkillLevel(int skillid, int lvl)
+        {
+            Skill skill = GetSkill(skillid);
+            if (skill != null)   
+                skill.SetLevel(lvl);
+        }
+
+        public List<int[]> ModifySkillLevel(int skillid, int lvl, List<int[]> alteredskills)
+        {
+            Skill skill = GetSkill(skillid);
+            if (skill != null)
+                skill.SetLevel(lvl, ref alteredskills);
+
+            return alteredskills;
+        }
+
         public void AddSkills(List<Skill> list)
         {
             SkillDictionary = new Dictionary<int, Skill>();
@@ -67,13 +81,23 @@ namespace SkillSimulator
         {
             Skill d = GetSkill(dependentskill);
             Skill r = GetSkill(requiredskill);
-            d.AddRequirement(r, lvl);
-            r.AddDependency(d);
+            if (d != null && r != null)
+            {
+                d.AddRequirement(r, lvl);
+                r.AddDependency(d);
+            }
         }
 
         public void BuildRequirements(ArrayList requirements)
         {
- 
+            //Name,SkillID, ReqSkillID, ReqLvl
+            foreach (object[] rawdata in requirements)
+            {
+                short skillid = (short)rawdata[1];
+                short reqskillid = (short)rawdata[2];
+                short reqlvl = (short)rawdata[3];
+                AddReqToSkill(skillid, reqskillid, reqlvl);
+            }
         }
     }
 }

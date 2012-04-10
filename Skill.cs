@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SkillSimulator
 {
-    class Skill
+    public class Skill
     {
 
         public String Name;
@@ -21,14 +21,14 @@ namespace SkillSimulator
         public int Maxlvl { get { return _Maxlvl; } }
         public int Currentlvl { get { return _Currentlvl; } }
 
-        public Skill(int id, String name, int max)            //constructor
+        public Skill(int id, String name, int max)     //constructor
         {
             this._ID = id;
             this.Name = name;
             this._Maxlvl = max;
         }
 
-        public void SetLevel(int level)                    //recursively check integrity of the tree 
+        public void SetLevel(int level)                 //recursively check integrity of the tree 
         {                                               //while inserting
             if (level >= 0 && level <= _Maxlvl)
             {
@@ -43,9 +43,9 @@ namespace SkillSimulator
                     FixDependencies();
                 }
             }
-        }        
+        }
 
-        public void FixRequirements()                          //fix pre reqs in order to set this one
+        public void FixRequirements()                   //fix pre reqs in order to set this one
         {
             foreach (Tuple<Skill, int> req in RequiredSkills)
             {
@@ -68,6 +68,58 @@ namespace SkillSimulator
             foreach (Skill dep in DependentSkills)
             {
                 FixDependencies();
+            }
+        }
+
+        public void SetLevel(int level, ref List<int[]> alteredlist)
+        {
+            if (level >= 0 && level <= _Maxlvl)
+            {
+                int prevlvl = _Currentlvl;
+                _Currentlvl = level;
+
+                if (alteredlist == null)
+                    alteredlist = new List<int[]>();
+                else
+                    alteredlist.Add(new int[2] { ID, Currentlvl });
+
+                if (prevlvl == 0 && level > 0)
+                {
+                    FixRequirements(ref alteredlist);
+                }
+                else if (prevlvl > level)
+                {
+                    FixDependencies(ref alteredlist);
+                }
+            }
+        }
+
+        public void FixRequirements(ref List<int[]> alteredlist)
+        {
+            foreach (Tuple<Skill, int> req in RequiredSkills)
+            {
+                if (!SkillLevelOk(req.Key, req.Value))
+                {
+                    req.Key.SetLevel(req.Value, ref alteredlist);
+                }
+            }
+        }
+
+        public void FixDependencies(ref List<int[]> alteredlist)
+        {
+            foreach (Tuple<Skill, int> req in RequiredSkills)
+            {
+                if (!SkillLevelOk(req.Key, req.Value))
+                {
+                    this._Currentlvl = 0;
+                    alteredlist.Add(new int[2]{ID, Currentlvl});
+                    break;
+                }
+            }
+
+            foreach (Skill dep in DependentSkills)
+            {
+                FixDependencies(ref alteredlist);
             }
         }
 
