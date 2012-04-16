@@ -27,7 +27,7 @@ namespace SkillSimulator
 
         private ArrayList GetSkills(string jobname)
         {
-            ArrayList skills = DBManager.GetSkills(jobname);
+            ArrayList skills = DBManager.GetSkillTree(jobname);
             return skills;
         }
 
@@ -57,7 +57,6 @@ namespace SkillSimulator
         public int GetMaxSkillPoints(string jobname)
         {
             int skillpoints = DBManager.GetTotalSkillPoints(jobname);
-            MaxSkillPoints = skillpoints;
             return skillpoints;
         }
 

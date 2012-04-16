@@ -59,6 +59,9 @@ namespace SkillSimulator
                     visual.Changed += this.SkillModified;
                     a++;
                 }
+                JobLabel.Text = SelectedJob;
+                NotificationLabel.Text = "Skill Points Left: " + Graph.MaxSkillPoints;
+                NotificationLabel.ForeColor = Color.DarkBlue;
             }
         }
 
@@ -66,7 +69,44 @@ namespace SkillSimulator
         {
             VisualSkill vs = (VisualSkill)sender;
             List<int[]> modifiedskills = Graph.ModifySkillLevel(vs.SkillID, (int)vs.LevelSelector.Value);
-        }   
+            foreach (int[] modified in modifiedskills)
+            {
+                vs = FindVisualSkill(modified[0]);
+                vs.LevelSelector.Value = modified[1];
+            }
+            int skillpoints = Graph.MaxSkillPoints - Graph.UsedSkillPoints;
+            RefreshNotification(skillpoints);
+        }
+
+        public VisualSkill FindVisualSkill(int id)
+        {
+            VisualSkill vs = null;
+            foreach (Control c in SkillContainerPanel.Controls)
+            {
+                VisualSkill tmp = (VisualSkill)c;
+                if (tmp.SkillID == id)
+                {
+                    vs = tmp;
+                    break;
+                }
+            }
+            return vs;
+        }
+
+        public void RefreshNotification(int skillpoints)
+        {
+            bool pointsok = (skillpoints >= 0) ? true : false;
+            if (pointsok)
+            {
+                NotificationLabel.Text = "Skill Points Left: " + skillpoints;
+                NotificationLabel.ForeColor = Color.DarkBlue;
+            }
+            else
+            {
+                NotificationLabel.Text = "Over: " + -skillpoints;
+                NotificationLabel.ForeColor = Color.DarkRed;
+            }
+        }
 
         private void addNewSkillToolStripMenuItem_Click(object sender, EventArgs e)
         {

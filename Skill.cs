@@ -119,7 +119,7 @@ namespace SkillSimulator
 
             foreach (Skill dep in DependentSkills)
             {
-                FixDependencies(ref alteredlist);
+                dep.FixDependencies(ref alteredlist);
             }
         }
 

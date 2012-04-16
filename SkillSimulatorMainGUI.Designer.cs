@@ -39,6 +39,7 @@
             this.NotificationLabel = new System.Windows.Forms.Label();
             this.InitializeButton = new System.Windows.Forms.Button();
             this.SkillContainerPanel = new System.Windows.Forms.Panel();
+            this.JobLabel = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -65,13 +66,13 @@
             // OpenToolItem
             // 
             this.OpenToolItem.Name = "OpenToolItem";
-            this.OpenToolItem.Size = new System.Drawing.Size(152, 22);
+            this.OpenToolItem.Size = new System.Drawing.Size(103, 22);
             this.OpenToolItem.Text = "&Open";
             // 
             // SaveToolItem
             // 
             this.SaveToolItem.Name = "SaveToolItem";
-            this.SaveToolItem.Size = new System.Drawing.Size(152, 22);
+            this.SaveToolItem.Size = new System.Drawing.Size(103, 22);
             this.SaveToolItem.Text = "&Save";
             this.SaveToolItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
@@ -87,14 +88,14 @@
             // AddNewSkillMenuItem
             // 
             this.AddNewSkillMenuItem.Name = "AddNewSkillMenuItem";
-            this.AddNewSkillMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.AddNewSkillMenuItem.Size = new System.Drawing.Size(147, 22);
             this.AddNewSkillMenuItem.Text = "Add New Skill";
             this.AddNewSkillMenuItem.Click += new System.EventHandler(this.addNewSkillToolStripMenuItem_Click);
             // 
             // LinkJobSkillsMenuItem
             // 
             this.LinkJobSkillsMenuItem.Name = "LinkJobSkillsMenuItem";
-            this.LinkJobSkillsMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.LinkJobSkillsMenuItem.Size = new System.Drawing.Size(147, 22);
             this.LinkJobSkillsMenuItem.Text = "Link Job Skills";
             this.LinkJobSkillsMenuItem.Click += new System.EventHandler(this.linkJobSkillsToolStripMenuItem_Click);
             // 
@@ -170,7 +171,7 @@
             // NotificationLabel
             // 
             this.NotificationLabel.AutoSize = true;
-            this.NotificationLabel.Location = new System.Drawing.Point(423, 102);
+            this.NotificationLabel.Location = new System.Drawing.Point(423, 133);
             this.NotificationLabel.MaximumSize = new System.Drawing.Size(158, 0);
             this.NotificationLabel.Name = "NotificationLabel";
             this.NotificationLabel.Size = new System.Drawing.Size(0, 13);
@@ -196,12 +197,22 @@
             this.SkillContainerPanel.TabIndex = 8;
             this.SkillContainerPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
+            // JobLabel
+            // 
+            this.JobLabel.AutoSize = true;
+            this.JobLabel.Location = new System.Drawing.Point(423, 104);
+            this.JobLabel.Name = "JobLabel";
+            this.JobLabel.Size = new System.Drawing.Size(66, 13);
+            this.JobLabel.TabIndex = 9;
+            this.JobLabel.Text = "Select a Job";
+            // 
             // SkillSimulatorMainGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(604, 381);
+            this.Controls.Add(this.JobLabel);
             this.Controls.Add(this.SkillContainerPanel);
             this.Controls.Add(this.InitializeButton);
             this.Controls.Add(this.NotificationLabel);
@@ -232,6 +243,7 @@
         private System.Windows.Forms.ToolStripMenuItem EditMenuItem;
         private System.Windows.Forms.ToolStripMenuItem AddNewSkillMenuItem;
         private System.Windows.Forms.ToolStripMenuItem LinkJobSkillsMenuItem;
+        private System.Windows.Forms.Label JobLabel;
 
 
     }
