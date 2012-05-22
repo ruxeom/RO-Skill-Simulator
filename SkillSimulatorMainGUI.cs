@@ -11,14 +11,16 @@ using System.Windows.Forms;
 
 namespace SkillSimulator
 {
-    public partial class SkillSimulatorMainGUI : Form
+    public partial class SkillSimulatorMainGUI : Form, IGUIManager
     {
+        public int SelectedSimulator;
         private String PrevSelectedJob;
         private String SelectedJob;
 
         private GraphManager Graph;
         private MainMenu menu;
-        //SQLLinker sqlinker = new SQLLinker();
+
+        private List<IObserver> Subscribers;
 
         public SkillSimulatorMainGUI()
         {
@@ -26,11 +28,9 @@ namespace SkillSimulator
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             Graph = new GraphManager();
             menu = new MainMenu();
+            Subscribers = new List<IObserver>();
             PrevSelectedJob = SelectedJob = "";
         }
-
-        public void Form1_Load(object sender, EventArgs e)
-        { }
 
         private void JobSelectorBox_TextUpdate(object sender, EventArgs e)
         {
@@ -38,7 +38,6 @@ namespace SkillSimulator
             if (a >= 0 && !JobSelectorBox.Text.Equals("--------------------"))
             {
                 SelectedJob = JobSelectorBox.SelectedItem.ToString();
-                //NotificationLabel.Text = JobSelectorBox.Text;
             }
         }
 
@@ -54,21 +53,21 @@ namespace SkillSimulator
                 short a = 0;
                 foreach (Skill skill in skills)
                 {
-                    VisualSkill visual = new VisualSkill(skill);
+                    VisualNode visual = new VisualNode(skill);
                     visual.SetContainer(10 + 40 * a, SkillContainerPanel);
-                    visual.Changed += this.SkillModified;
+                    visual.Changed += this.NodeModified;
                     a++;
                 }
-                JobLabel.Text = SelectedJob;
+
                 NotificationLabel.Text = "Skill Points Left: " + Graph.MaxSkillPoints;
                 NotificationLabel.ForeColor = Color.DarkBlue;
             }
         }
 
-        public void SkillModified(object sender, EventArgs e)
+        public void NodeModified(object sender, EventArgs e)
         {
-            VisualSkill vs = (VisualSkill)sender;
-            List<int[]> modifiedskills = Graph.ModifySkillLevel(vs.SkillID, (int)vs.LevelSelector.Value);
+            VisualNode vs = (VisualNode)sender;
+            List<int[]> modifiedskills = Graph.ModifySkillLevel(vs.NodeID, (int)vs.LevelSelector.Value);
             foreach (int[] modified in modifiedskills)
             {
                 vs = FindVisualSkill(modified[0]);
@@ -78,13 +77,13 @@ namespace SkillSimulator
             RefreshNotification(skillpoints);
         }
 
-        public VisualSkill FindVisualSkill(int id)
+        public VisualNode FindVisualSkill(int id)
         {
-            VisualSkill vs = null;
+            VisualNode vs = null;
             foreach (Control c in SkillContainerPanel.Controls)
             {
-                VisualSkill tmp = (VisualSkill)c;
-                if (tmp.SkillID == id)
+                VisualNode tmp = (VisualNode)c;
+                if (tmp.NodeID == id)
                 {
                     vs = tmp;
                     break;
@@ -108,31 +107,40 @@ namespace SkillSimulator
             }
         }
 
-        private void addNewSkillToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ROSimulatorToolItem_Click(object sender, EventArgs e)
         {
-            Editor editor = new Editor();
-            editor.Show();
-            this.Hide();
+            SelectedSimulator = Constants.ROSimulator;
+            foreach (IObserver obs in Subscribers)
+            {
+                obs.NotifySelection();
+            }
         }
 
-        private void linkJobSkillsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void LoLSimulatorToolItem_Click(object sender, EventArgs e)
         {
-            SkillLinker sklinker = new SkillLinker();
-            sklinker.Show();
-            this.Hide();
+            SelectedSimulator = Constants.LoLSimulator;
+            foreach (IObserver obs in Subscribers)
+            {
+                obs.NotifySelection();
+            }
         }
 
-        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        public void Subscribe(IObserver observer)
         {
-            //TODO: Implement w/e this was
+            Subscribers.Add(observer);
         }
 
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        public void Unsubscribe(IObserver observer)
         {
-            //TODO: Implement w/e this was
+            foreach (IObserver obs in Subscribers)
+            {
+                if (obs.Equals(observer))
+                {
+                    Subscribers.Remove(obs);
+                    break;
+                }
+            }
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        { } 
     }
 }

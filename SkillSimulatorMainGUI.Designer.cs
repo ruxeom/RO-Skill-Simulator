@@ -32,22 +32,21 @@
             this.FileMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenToolItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveToolItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.EditMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.AddNewSkillMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.LinkJobSkillsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.NewToolItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ROSimulatorToolItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.LoLSimulatorToolItem = new System.Windows.Forms.ToolStripMenuItem();
             this.JobSelectorBox = new System.Windows.Forms.ComboBox();
             this.NotificationLabel = new System.Windows.Forms.Label();
             this.InitializeButton = new System.Windows.Forms.Button();
             this.SkillContainerPanel = new System.Windows.Forms.Panel();
-            this.JobLabel = new System.Windows.Forms.Label();
+            this.resetButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.FileMenuItem,
-            this.EditMenuItem});
+            this.FileMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(604, 24);
@@ -58,7 +57,8 @@
             // 
             this.FileMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.OpenToolItem,
-            this.SaveToolItem});
+            this.SaveToolItem,
+            this.NewToolItem});
             this.FileMenuItem.Name = "FileMenuItem";
             this.FileMenuItem.Size = new System.Drawing.Size(37, 20);
             this.FileMenuItem.Text = "File";
@@ -66,38 +66,37 @@
             // OpenToolItem
             // 
             this.OpenToolItem.Name = "OpenToolItem";
-            this.OpenToolItem.Size = new System.Drawing.Size(103, 22);
+            this.OpenToolItem.Size = new System.Drawing.Size(152, 22);
             this.OpenToolItem.Text = "&Open";
             // 
             // SaveToolItem
             // 
             this.SaveToolItem.Name = "SaveToolItem";
-            this.SaveToolItem.Size = new System.Drawing.Size(103, 22);
+            this.SaveToolItem.Size = new System.Drawing.Size(152, 22);
             this.SaveToolItem.Text = "&Save";
-            this.SaveToolItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
-            // EditMenuItem
+            // NewToolItem
             // 
-            this.EditMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.AddNewSkillMenuItem,
-            this.LinkJobSkillsMenuItem});
-            this.EditMenuItem.Name = "EditMenuItem";
-            this.EditMenuItem.Size = new System.Drawing.Size(39, 20);
-            this.EditMenuItem.Text = "Edit";
+            this.NewToolItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ROSimulatorToolItem,
+            this.LoLSimulatorToolItem});
+            this.NewToolItem.Name = "NewToolItem";
+            this.NewToolItem.Size = new System.Drawing.Size(152, 22);
+            this.NewToolItem.Text = "&New";
             // 
-            // AddNewSkillMenuItem
+            // ROSimulatorToolItem
             // 
-            this.AddNewSkillMenuItem.Name = "AddNewSkillMenuItem";
-            this.AddNewSkillMenuItem.Size = new System.Drawing.Size(147, 22);
-            this.AddNewSkillMenuItem.Text = "Add New Skill";
-            this.AddNewSkillMenuItem.Click += new System.EventHandler(this.addNewSkillToolStripMenuItem_Click);
+            this.ROSimulatorToolItem.Name = "ROSimulatorToolItem";
+            this.ROSimulatorToolItem.Size = new System.Drawing.Size(147, 22);
+            this.ROSimulatorToolItem.Text = "&RO Simulator";
+            this.ROSimulatorToolItem.Click += new System.EventHandler(this.ROSimulatorToolItem_Click);
             // 
-            // LinkJobSkillsMenuItem
+            // LoLSimulatorToolItem
             // 
-            this.LinkJobSkillsMenuItem.Name = "LinkJobSkillsMenuItem";
-            this.LinkJobSkillsMenuItem.Size = new System.Drawing.Size(147, 22);
-            this.LinkJobSkillsMenuItem.Text = "Link Job Skills";
-            this.LinkJobSkillsMenuItem.Click += new System.EventHandler(this.linkJobSkillsToolStripMenuItem_Click);
+            this.LoLSimulatorToolItem.Name = "LoLSimulatorToolItem";
+            this.LoLSimulatorToolItem.Size = new System.Drawing.Size(152, 22);
+            this.LoLSimulatorToolItem.Text = "&LoL Simulator";
+            this.LoLSimulatorToolItem.Click += new System.EventHandler(this.LoLSimulatorToolItem_Click);
             // 
             // JobSelectorBox
             // 
@@ -161,58 +160,61 @@
             "Ninja",
             "Gunslinger",
             "Super Novice"});
-            this.JobSelectorBox.Location = new System.Drawing.Point(423, 36);
+            this.JobSelectorBox.Location = new System.Drawing.Point(290, 39);
             this.JobSelectorBox.Name = "JobSelectorBox";
-            this.JobSelectorBox.Size = new System.Drawing.Size(158, 22);
+            this.JobSelectorBox.Size = new System.Drawing.Size(110, 22);
             this.JobSelectorBox.TabIndex = 1;
             this.JobSelectorBox.Text = "Select a Job";
+            this.JobSelectorBox.Visible = false;
             this.JobSelectorBox.SelectedIndexChanged += new System.EventHandler(this.JobSelectorBox_TextUpdate);
             // 
             // NotificationLabel
             // 
             this.NotificationLabel.AutoSize = true;
-            this.NotificationLabel.Location = new System.Drawing.Point(423, 133);
+            this.NotificationLabel.Location = new System.Drawing.Point(12, 39);
             this.NotificationLabel.MaximumSize = new System.Drawing.Size(158, 0);
             this.NotificationLabel.Name = "NotificationLabel";
-            this.NotificationLabel.Size = new System.Drawing.Size(0, 13);
+            this.NotificationLabel.Size = new System.Drawing.Size(92, 13);
             this.NotificationLabel.TabIndex = 2;
+            this.NotificationLabel.Text = "Select a Simulator";
             // 
             // InitializeButton
             // 
-            this.InitializeButton.Location = new System.Drawing.Point(423, 67);
+            this.InitializeButton.Location = new System.Drawing.Point(406, 39);
             this.InitializeButton.Name = "InitializeButton";
-            this.InitializeButton.Size = new System.Drawing.Size(158, 22);
+            this.InitializeButton.Size = new System.Drawing.Size(113, 22);
             this.InitializeButton.TabIndex = 3;
             this.InitializeButton.Text = "&Generate Simulator";
             this.InitializeButton.UseVisualStyleBackColor = true;
+            this.InitializeButton.Visible = false;
             this.InitializeButton.Click += new System.EventHandler(this.InitializeButton_Click);
             // 
             // SkillContainerPanel
             // 
             this.SkillContainerPanel.AutoScroll = true;
             this.SkillContainerPanel.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.SkillContainerPanel.Location = new System.Drawing.Point(12, 36);
+            this.SkillContainerPanel.Location = new System.Drawing.Point(12, 67);
             this.SkillContainerPanel.Name = "SkillContainerPanel";
-            this.SkillContainerPanel.Size = new System.Drawing.Size(405, 333);
+            this.SkillContainerPanel.Size = new System.Drawing.Size(563, 363);
             this.SkillContainerPanel.TabIndex = 8;
-            this.SkillContainerPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
-            // JobLabel
+            // resetButton
             // 
-            this.JobLabel.AutoSize = true;
-            this.JobLabel.Location = new System.Drawing.Point(423, 104);
-            this.JobLabel.Name = "JobLabel";
-            this.JobLabel.Size = new System.Drawing.Size(66, 13);
-            this.JobLabel.TabIndex = 9;
-            this.JobLabel.Text = "Select a Job";
+            this.resetButton.Location = new System.Drawing.Point(526, 39);
+            this.resetButton.Name = "resetButton";
+            this.resetButton.Size = new System.Drawing.Size(49, 23);
+            this.resetButton.TabIndex = 9;
+            this.resetButton.Text = "&Reset";
+            this.resetButton.UseVisualStyleBackColor = true;
+            this.resetButton.Visible = false;
             // 
             // SkillSimulatorMainGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(604, 381);
-            this.Controls.Add(this.JobLabel);
+            this.ClientSize = new System.Drawing.Size(604, 442);
+            this.Controls.Add(this.resetButton);
             this.Controls.Add(this.SkillContainerPanel);
             this.Controls.Add(this.InitializeButton);
             this.Controls.Add(this.NotificationLabel);
@@ -222,7 +224,6 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "SkillSimulatorMainGUI";
             this.Text = "Skill Simulator";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -240,10 +241,10 @@
         private System.Windows.Forms.Label NotificationLabel;
         private System.Windows.Forms.Button InitializeButton;
         private System.Windows.Forms.Panel SkillContainerPanel;
-        private System.Windows.Forms.ToolStripMenuItem EditMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem AddNewSkillMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem LinkJobSkillsMenuItem;
-        private System.Windows.Forms.Label JobLabel;
+        private System.Windows.Forms.ToolStripMenuItem NewToolItem;
+        private System.Windows.Forms.ToolStripMenuItem ROSimulatorToolItem;
+        private System.Windows.Forms.ToolStripMenuItem LoLSimulatorToolItem;
+        private System.Windows.Forms.Button resetButton;
 
 
     }

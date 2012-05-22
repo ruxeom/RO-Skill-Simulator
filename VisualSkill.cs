@@ -8,13 +8,13 @@ using System.Drawing;
 public delegate void VisualSkillHandler(object sender, EventArgs e);
 namespace SkillSimulator
 {
-    public class VisualSkill:Control
+    public class VisualNode:Control
     {
         //private Panel Panel;
         private Label Label;
         public NumericUpDown LevelSelector;
-        private int _SkillID;
-        public int SkillID { get { return this._SkillID; } }
+        private int _NodeID;
+        public int NodeID { get { return this._NodeID; } }
         public event VisualSkillHandler Changed;
 
         protected virtual void OnChanged(Object sender, EventArgs e)
@@ -26,16 +26,16 @@ namespace SkillSimulator
         //We make the constructor require a Skill object
         //because future GUI implementations might require lots of info from 
         //the skill object and too many parameters look ugly
-        public VisualSkill(Skill skill)
+        public VisualNode(Skill node)
         {
             Label = new Label();
             LevelSelector = new NumericUpDown();
 
-            _SkillID = skill.ID;
-            Label.Text = skill.Name;
+            _NodeID = node.ID;
+            Label.Text = node.Name;
 
             LevelSelector.Minimum = LevelSelector.Value = 0;
-            LevelSelector.Maximum = skill.Maxlvl;
+            LevelSelector.Maximum = node.Maxlvl;
 
             Label.Height = 15;
             Label.Width = 200;

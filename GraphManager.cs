@@ -6,7 +6,7 @@ using System.Collections;
 
 namespace SkillSimulator
 {
-    class GraphManager
+    class GraphManager : IGraphManager
     {
         public Job CurrentJob;
         private DBConnectionManager DBManager;
