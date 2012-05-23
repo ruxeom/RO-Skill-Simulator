@@ -60,9 +60,16 @@ namespace SkillSimulator
             return null;
         }
 
+        public List<INode> GetNodes()
+        {
+            return SkillDictionary.Values.ToList<INode>();
+        }
+
         public INode GetNode(int skillid)
         {
-            return SkillDictionary[skillid];
+            if(SkillDictionary.ContainsKey(skillid))
+                return SkillDictionary[skillid];
+            return null;
         }
 
         public void ModifyNodeLevel(int skillid, int lvl)
@@ -117,5 +124,10 @@ namespace SkillSimulator
                 AddRequirementToNode(skillid, reqskillid, reqlvl);
             }
         }
+
+        public void SetCurrentLevel(int level) { }
+
+        public void SetCurrentLevel(int level, ref List<int[]> alteredlist) { }
+
     }
 }

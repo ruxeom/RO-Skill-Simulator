@@ -69,17 +69,33 @@ namespace SkillSimulator
             }
         }
 
+        public void AddVisualNodes(List<INode> nodes)
+        {
+            short a = 0;
+            foreach (INode node in nodes)
+            {
+                VisualNode visual = new VisualNode(node);
+                visual.SetContainer(10 + 40 * a, SkillContainerPanel);
+                visual.Changed += this.NodeModified;
+                a++;
+            }
+        }
+
         public void NodeModified(object sender, EventArgs e)
         {
             VisualNode vs = (VisualNode)sender;
-            List<int[]> modifiedskills = Graph.ModifySkillLevel(vs.NodeID, (int)vs.LevelSelector.Value);
+            /*List<int[]> modifiedskills = Graph.ModifySkillLevel(vs.NodeID, (int)vs.LevelSelector.Value);
             foreach (int[] modified in modifiedskills)
             {
                 vs = FindVisualSkill(modified[0]);
                 vs.LevelSelector.Value = modified[1];
             }
             int skillpoints = Graph.MaxSkillPoints - Graph.UsedSkillPoints;
-            RefreshNotification(skillpoints);
+            RefreshNotification(skillpoints);*/
+            foreach (IObserver o in Subscribers)
+            {
+                o.NotifyModification(vs.NodeID, (int)vs.LevelSelector.Value);
+            }
         }
 
         public VisualNode FindVisualSkill(int id)

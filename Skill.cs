@@ -35,18 +35,18 @@ namespace SkillSimulator
 
         public override void FixRequirements()                   //fix pre reqs in order to set this one
         {
-            foreach (Tuple<INode, int> req in RequiredSkills)
+            foreach (Requirement req in RequiredSkills)
             {
-                if (!SkillLevelOk(req.Key, req.Value))
-                    req.Key.SetCurrentLevel(req.Value);
+                if (!RequiredLevelOk(req.RequiredObject, req.RequiredLevel))
+                    req.RequiredObject.SetCurrentLevel(req.RequiredLevel);
             }
         }
 
         public override void FixDependencies()
         {
-            foreach (Tuple<INode, int> req in RequiredSkills)
+            foreach (Requirement req in RequiredSkills)
             {
-                if (!SkillLevelOk(req.Key, req.Value))
+                if (!RequiredLevelOk(req.RequiredObject, req.RequiredLevel))
                 {
                     this._Currentlvl = 0;
                     break;
@@ -84,20 +84,20 @@ namespace SkillSimulator
 
         public override void FixRequirements(ref List<int[]> alteredlist)
         {
-            foreach (Tuple<INode, int> req in RequiredSkills)
+            foreach (Requirement req in RequiredSkills)
             {
-                if (!SkillLevelOk(req.Key, req.Value))
+                if (!RequiredLevelOk(req.RequiredObject, req.RequiredLevel))
                 {
-                    req.Key.SetCurrentLevel(req.Value, ref alteredlist);
+                    req.RequiredObject.SetCurrentLevel(req.RequiredLevel, ref alteredlist);
                 }
             }
         }
 
         public override void FixDependencies(ref List<int[]> alteredlist)
         {
-            foreach (Tuple<INode, int> req in RequiredSkills)
+            foreach (Requirement req in RequiredSkills)
             {
-                if (!SkillLevelOk(req.Key, req.Value))
+                if (!RequiredLevelOk(req.RequiredObject, req.RequiredLevel))
                 {
                     this._Currentlvl = 0;
                     alteredlist.Add(new int[2]{ID, Currentlvl});
@@ -111,16 +111,16 @@ namespace SkillSimulator
             }
         }
 
-        public override Boolean SkillLevelOk(INode skill, int reqlvl)
+        public override Boolean RequiredLevelOk(ISet requiredobj, int reqlvl)
         {
-            if (skill.Currentlvl >= reqlvl)
+            if (requiredobj.GetCurrentLevel() >= reqlvl)
                 return true;
             return false;
         }
 
         public override void AddRequirement(INode reqskill, int reqlvl)     
         {
-            RequiredSkills.Add(new Tuple<INode, int>(reqskill, reqlvl));
+            RequiredSkills.Add(new Requirement(reqskill, reqlvl));
         }
 
         public override void AddDependency(INode next)          

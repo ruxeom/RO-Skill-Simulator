@@ -9,7 +9,7 @@ namespace SkillSimulator
     {
         public String Name;
         //A list containing Skill/RequieredLevel pairs
-        protected List<Tuple<INode, int>> RequiredSkills = new List<Tuple<INode, int>>();
+        protected List<Requirement> RequiredSkills = new List<Requirement>();
         //A list of skills that depend on this one
         protected List<INode> DependentSkills = new List<INode>();
         protected int _ID;
@@ -56,6 +56,6 @@ namespace SkillSimulator
 
         public abstract void FixDependencies(ref List<int[]> alteredlist);
 
-        public abstract Boolean SkillLevelOk(INode skill, int reqlvl);
+        public abstract Boolean RequiredLevelOk(ISet Obj, int reqlvl);
     }
 }

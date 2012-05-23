@@ -11,6 +11,10 @@ namespace SkillSimulator
 
         int GetMaxLevel();
 
+        void SetCurrentLevel(int level);
+
         int GetCurrentLevel();
+
+        void SetCurrentLevel(int level, ref List<int[]> alteredlist);
     }
 }

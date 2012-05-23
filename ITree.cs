@@ -23,6 +23,8 @@ namespace SkillSimulator
 
         INode GetNode(int id);
 
+        List<INode> GetNodes();
+
         void AddRequirementToNode(int dependentnode, int requirednode, int level);
 
     }

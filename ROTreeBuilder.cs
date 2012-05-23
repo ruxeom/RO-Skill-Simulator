@@ -45,22 +45,33 @@ namespace SkillSimulator
             return trees;
         }
 
-        public void AddEdgesToTrees(List<ITree> trees, ArrayList EdgeData)
+        public void AddEdgesToTrees(List<ITree> trees, ArrayList edgedata)
         {
-            
-        }
-        /*
-         * public void BuildRequirements(ArrayList requirements)
-        {
-            //Name,SkillID, ReqSkillID, ReqLvl
-            foreach (object[] rawdata in requirements)
+            foreach (object[] data in edgedata)
             {
-                short skillid = (short)rawdata[1];
-                short reqskillid = (short)rawdata[2];
-                short reqlvl = (short)rawdata[3];
-                AddRequirementToNode(skillid, reqskillid, reqlvl);
+                short skillid = (short)data[1];
+                short reqskillid = (short)data[2];
+                short reqlvl = (short)data[3];
+                INode dependentskill = GetNodeFromTrees(trees, skillid);
+                INode requiredskill = GetNodeFromTrees(trees, reqskillid);
+
+                if (dependentskill != null && requiredskill != null)
+                {
+                    dependentskill.AddRequirement(requiredskill, reqlvl);
+                    requiredskill.AddDependency(dependentskill);
+                }
             }
         }
-         */
+
+        public INode GetNodeFromTrees(List<ITree> trees, int id)
+        {
+            foreach (ITree tree in trees)
+            {
+                Skill temp = (Skill)tree.GetNode(id);
+                if (temp != null)
+                    return temp;
+            }
+            return null;
+        }
     }
 }

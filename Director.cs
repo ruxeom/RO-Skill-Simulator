@@ -14,10 +14,12 @@ namespace SkillSimulator
         private IDataManager SaveDataDestinationManager;
         private IDataManager LoadDataSourceManager;
         private ITreeBuilder TreeBuilder;
+        private IGraphManager GraphManager;
 
         public Director()
         {
             GUIManager = new SkillSimulatorMainGUI();
+            GraphManager = new ROGraphManager();
             TreeBuilder = new ROTreeBuilder();
             GUIManager.Subscribe(this);
             DataSourceManager = ROSQLExpressConnectionManager.Instance;
@@ -39,10 +41,14 @@ namespace SkillSimulator
         }
         public void NotifySelection(string name)
         {
+            GraphManager = new ROGraphManager(); //use the factory to reload our graph manager (restart it)
+
             ArrayList nodes = DataSourceManager.GetNodes(name);
             List<ITree> trees = TreeBuilder.BuildTreesFromData(nodes);
             ArrayList edgedata = DataSourceManager.GetEdges(name);
             TreeBuilder.AddEdgesToTrees(trees, edgedata);
+            GraphManager.AddTrees(trees);
+            GUIManager.AddVisualNodes(GraphManager.GetAllNodes());
         }
 
         public void NotifyModification(int id, int lvl) { }

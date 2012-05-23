@@ -8,6 +8,8 @@ namespace SkillSimulator
 {
     class ROGraphManager : IGraphManager
     {
+        private List<ITree> Trees;
+
         public Job CurrentJob;
         private RODBConnectionManager DBManager;
         private ROSQLSkillBuilder Builder;
@@ -16,6 +18,7 @@ namespace SkillSimulator
 
         public ROGraphManager()
         {
+            Trees = new List<ITree>();
             DBManager = ROSQLExpressConnectionManager.Instance;
             Builder = new ROSQLSkillBuilder();
         }
@@ -76,6 +79,22 @@ namespace SkillSimulator
         }
 
         public void AddTree(ITree tree)
-        { }
+        {
+            this.Trees.Add(tree);
+        }
+
+        public void AddTrees(List<ITree> trees)
+        {
+            foreach (ITree tree in trees)
+                this.Trees.Add(tree);
+        }
+
+        public List<INode> GetAllNodes()
+        {
+            List<INode> allnodes = new List<INode>();
+            foreach (ITree t in Trees)
+                allnodes.AddRange(t.GetNodes());
+            return allnodes;
+        }
     }
 }

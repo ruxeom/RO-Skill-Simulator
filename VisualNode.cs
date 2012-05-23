@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +8,7 @@ using System.Drawing;
 public delegate void VisualSkillHandler(object sender, EventArgs e);
 namespace SkillSimulator
 {
-    public class VisualNode:Control
+    public class VisualNode : Control
     {
         //private Panel Panel;
         private Label Label;
@@ -26,7 +26,7 @@ namespace SkillSimulator
         //We make the constructor require a Skill object
         //because future GUI implementations might require lots of info from 
         //the skill object and too many parameters look ugly
-        public VisualNode(Skill node)
+        public VisualNode(INode node)
         {
             Label = new Label();
             LevelSelector = new NumericUpDown();
