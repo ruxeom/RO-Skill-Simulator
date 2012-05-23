@@ -6,20 +6,8 @@ using System.Text;
 
 namespace SkillSimulator
 {
-    public class Skill
+    public class Skill : INode
     {
-
-        public String Name;
-        //A list containing Skill/RequieredLevel pairs
-        private List<Tuple<Skill, int>> RequiredSkills = new List<Tuple<Skill, int>>();
-        //A list of skills that depend on this one
-        private List<Skill> DependentSkills = new List<Skill>();
-        private int _ID;
-        private int _Maxlvl;
-        private int _Currentlvl = 0;
-        public int ID { get { return _ID; } }
-        public int Maxlvl { get { return _Maxlvl; } }
-        public int Currentlvl { get { return _Currentlvl; } }
 
         public Skill(int id, String name, int max)     //constructor
         {
@@ -28,7 +16,7 @@ namespace SkillSimulator
             this._Maxlvl = max;
         }
 
-        public void SetLevel(int level)                 //recursively check integrity of the tree 
+        public override void SetCurrentLevel(int level) //recursively check integrity of the tree 
         {                                               //while inserting
             if (level >= 0 && level <= _Maxlvl)
             {
@@ -45,18 +33,18 @@ namespace SkillSimulator
             }
         }
 
-        public void FixRequirements()                   //fix pre reqs in order to set this one
+        public override void FixRequirements()                   //fix pre reqs in order to set this one
         {
-            foreach (Tuple<Skill, int> req in RequiredSkills)
+            foreach (Tuple<INode, int> req in RequiredSkills)
             {
                 if (!SkillLevelOk(req.Key, req.Value))
-                    req.Key.SetLevel(req.Value);
+                    req.Key.SetCurrentLevel(req.Value);
             }
         }
 
-        public void FixDependencies()
+        public override void FixDependencies()
         {
-            foreach (Tuple<Skill, int> req in RequiredSkills)
+            foreach (Tuple<INode, int> req in RequiredSkills)
             {
                 if (!SkillLevelOk(req.Key, req.Value))
                 {
@@ -71,7 +59,7 @@ namespace SkillSimulator
             }
         }
 
-        public void SetLevel(int level, ref List<int[]> alteredlist)
+        public override void SetCurrentLevel(int level, ref List<int[]> alteredlist)
         {
             if (level >= 0 && level <= _Maxlvl)
             {
@@ -94,20 +82,20 @@ namespace SkillSimulator
             }
         }
 
-        public void FixRequirements(ref List<int[]> alteredlist)
+        public override void FixRequirements(ref List<int[]> alteredlist)
         {
-            foreach (Tuple<Skill, int> req in RequiredSkills)
+            foreach (Tuple<INode, int> req in RequiredSkills)
             {
                 if (!SkillLevelOk(req.Key, req.Value))
                 {
-                    req.Key.SetLevel(req.Value, ref alteredlist);
+                    req.Key.SetCurrentLevel(req.Value, ref alteredlist);
                 }
             }
         }
 
-        public void FixDependencies(ref List<int[]> alteredlist)
+        public override void FixDependencies(ref List<int[]> alteredlist)
         {
-            foreach (Tuple<Skill, int> req in RequiredSkills)
+            foreach (Tuple<INode, int> req in RequiredSkills)
             {
                 if (!SkillLevelOk(req.Key, req.Value))
                 {
@@ -123,19 +111,19 @@ namespace SkillSimulator
             }
         }
 
-        public Boolean SkillLevelOk(Skill skill, int reqlvl)
+        public override Boolean SkillLevelOk(INode skill, int reqlvl)
         {
-            if (skill._Currentlvl >= reqlvl)
+            if (skill.Currentlvl >= reqlvl)
                 return true;
             return false;
         }
 
-        public void AddRequirement(Skill reqskill, int reqlvl)     
+        public override void AddRequirement(INode reqskill, int reqlvl)     
         {
-            RequiredSkills.Add(new Tuple<Skill, int>(reqskill, reqlvl));
+            RequiredSkills.Add(new Tuple<INode, int>(reqskill, reqlvl));
         }
 
-        public void AddDependency(Skill next)          
+        public override void AddDependency(INode next)          
         {
             this.DependentSkills.Add(next);
         }

@@ -66,13 +66,13 @@
             // OpenToolItem
             // 
             this.OpenToolItem.Name = "OpenToolItem";
-            this.OpenToolItem.Size = new System.Drawing.Size(152, 22);
+            this.OpenToolItem.Size = new System.Drawing.Size(103, 22);
             this.OpenToolItem.Text = "&Open";
             // 
             // SaveToolItem
             // 
             this.SaveToolItem.Name = "SaveToolItem";
-            this.SaveToolItem.Size = new System.Drawing.Size(152, 22);
+            this.SaveToolItem.Size = new System.Drawing.Size(103, 22);
             this.SaveToolItem.Text = "&Save";
             // 
             // NewToolItem
@@ -81,7 +81,7 @@
             this.ROSimulatorToolItem,
             this.LoLSimulatorToolItem});
             this.NewToolItem.Name = "NewToolItem";
-            this.NewToolItem.Size = new System.Drawing.Size(152, 22);
+            this.NewToolItem.Size = new System.Drawing.Size(103, 22);
             this.NewToolItem.Text = "&New";
             // 
             // ROSimulatorToolItem
@@ -94,7 +94,7 @@
             // LoLSimulatorToolItem
             // 
             this.LoLSimulatorToolItem.Name = "LoLSimulatorToolItem";
-            this.LoLSimulatorToolItem.Size = new System.Drawing.Size(152, 22);
+            this.LoLSimulatorToolItem.Size = new System.Drawing.Size(147, 22);
             this.LoLSimulatorToolItem.Text = "&LoL Simulator";
             this.LoLSimulatorToolItem.Click += new System.EventHandler(this.LoLSimulatorToolItem_Click);
             // 
@@ -206,7 +206,6 @@
             this.resetButton.TabIndex = 9;
             this.resetButton.Text = "&Reset";
             this.resetButton.UseVisualStyleBackColor = true;
-            this.resetButton.Visible = false;
             // 
             // SkillSimulatorMainGUI
             // 

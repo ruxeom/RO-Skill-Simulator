@@ -16,3 +16,4 @@
 *.dll
 *.resources
 *.settings
+*.force

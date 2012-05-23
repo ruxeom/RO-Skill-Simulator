@@ -5,42 +5,25 @@ using System.Text;
 
 namespace SkillSimulator
 {
-    abstract class ITree : ISet
+    public interface ITree : ISet
     {
-        protected int _MaxLvl;
-        protected List<INode> Nodes;
+        void SetMaxLevel(int level);
 
-        public void SetMaxLevel(int level)
-        {
-            _MaxLvl = level;
-        }
+        int GetMaxLevel();
 
-        public int GetMaxLevel()
-        {
-            return _MaxLvl;
-        }
+        int GetCurrentLevel();
 
-        public abstract int GetCurrentLevel()
-        {
-            return 0;
-        }
+        void ModifyNodeLevel(int id, int level);
 
-        public abstract void ModifyNodeLevel(int id, int level)
-        { }
+        List<int[]> ModifyNodeLevel(int id, int lvl, List<int[]> alterednodes);
 
-        public abstract void AddNode(INode node)
-        { }
+        void AddNode(INode node);
 
-        public abstract void AddNodes(List<INode> nodes)
-        { }
+        void AddNodes(List<INode> nodes);
 
-        public abstract INode GetNode(INode node)
-        {
-            return null;
-        }
+        INode GetNode(int id);
 
-        public abstract void AddDependencyToNode(int dependentnode, int requirednode, int level)
-        { }
+        void AddRequirementToNode(int dependentnode, int requirednode, int level);
 
     }
 }

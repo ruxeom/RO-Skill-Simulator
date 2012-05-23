@@ -6,11 +6,12 @@ using System.Text;
 
 namespace SkillSimulator
 {
-    class Job
+    class Job : ITree
     {
         //public List<Skill> Skills = new List<Skill>();
-        private Dictionary<int, Skill> SkillDictionary;
+        private Dictionary<int, INode> SkillDictionary;
         public String Name;
+        public int Maxlvl;
         public int UsedSkillPoints
         {
             get 
@@ -25,16 +26,33 @@ namespace SkillSimulator
         }
 
         public Job()
-        { }
+        {
+            SkillDictionary = new Dictionary<int, INode>();
+        }
         
         public Job(String name)
         {
             this.Name = name;
         }
 
-        public Skill GetSkill(String skill)
+        public void SetMaxLevel(int level)
         {
-            foreach(Skill s in SkillDictionary.Values.ToArray<Skill>())
+            this.Maxlvl = level;
+        }
+
+        public int GetMaxLevel()
+        {
+            return this.Maxlvl;
+        }
+
+        public int GetCurrentLevel()
+        {
+            return UsedSkillPoints;
+        }
+
+        public INode GetNode(String skill)
+        {
+            foreach(Skill s in SkillDictionary.Values.ToArray<INode>())
             {
                 if (String.ReferenceEquals(s.Name, skill))
                     return s;
@@ -42,45 +60,45 @@ namespace SkillSimulator
             return null;
         }
 
-        public Skill GetSkill(int skillid)
+        public INode GetNode(int skillid)
         {
             return SkillDictionary[skillid];
         }
 
-        public void ModifySkillLevel(int skillid, int lvl)
+        public void ModifyNodeLevel(int skillid, int lvl)
         {
-            Skill skill = GetSkill(skillid);
+            INode skill = GetNode(skillid);
             if (skill != null)   
-                skill.SetLevel(lvl);
+                skill.SetCurrentLevel(lvl);
         }
 
-        public List<int[]> ModifySkillLevel(int skillid, int lvl, List<int[]> alteredskills)
+        public List<int[]> ModifyNodeLevel(int skillid, int lvl, List<int[]> alteredskills)
         {
-            Skill skill = GetSkill(skillid);
+            INode skill = GetNode(skillid);
             if (skill != null)
-                skill.SetLevel(lvl, ref alteredskills);
+                skill.SetCurrentLevel(lvl, ref alteredskills);
 
             return alteredskills;
         }
 
-        public void AddSkills(List<Skill> list)
+        public void AddNodes(List<INode> list)
         {
-            SkillDictionary = new Dictionary<int, Skill>();
+            SkillDictionary = new Dictionary<int, INode>();
             foreach (Skill skill in list)
             {
-                AddSkill(skill);
+                AddNode(skill);
             }
         }
 
-        public void AddSkill(Skill skill)
+        public void AddNode(INode skill)
         {
             SkillDictionary.Add(skill.ID, skill);
         }
 
-        public void AddReqToSkill(int dependentskill, int requiredskill, int lvl)
+        public void AddRequirementToNode(int dependentskill, int requiredskill, int lvl)
         {
-            Skill d = GetSkill(dependentskill);
-            Skill r = GetSkill(requiredskill);
+            INode d = GetNode(dependentskill);
+            INode r = GetNode(requiredskill);
             if (d != null && r != null)
             {
                 d.AddRequirement(r, lvl);
@@ -96,7 +114,7 @@ namespace SkillSimulator
                 short skillid = (short)rawdata[1];
                 short reqskillid = (short)rawdata[2];
                 short reqlvl = (short)rawdata[3];
-                AddReqToSkill(skillid, reqskillid, reqlvl);
+                AddRequirementToNode(skillid, reqskillid, reqlvl);
             }
         }
     }

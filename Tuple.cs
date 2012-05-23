@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SkillSimulator
 {
-    class Tuple <T, U>
+    public class Tuple <T, U>
     {
         public T Key;
         public U Value;

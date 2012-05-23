@@ -17,7 +17,7 @@ namespace SkillSimulator
         private String PrevSelectedJob;
         private String SelectedJob;
 
-        private GraphManager Graph;
+        private ROGraphManager Graph;
         private MainMenu menu;
 
         private List<IObserver> Subscribers;
@@ -26,7 +26,7 @@ namespace SkillSimulator
         {
             InitializeComponent();
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-            Graph = new GraphManager();
+            Graph = new ROGraphManager();
             menu = new MainMenu();
             Subscribers = new List<IObserver>();
             PrevSelectedJob = SelectedJob = "";
@@ -48,8 +48,13 @@ namespace SkillSimulator
                 PrevSelectedJob = SelectedJob;
                 SkillContainerPanel.Controls.Clear();
                 //maybe remove listeners from objects?
+                
+                foreach(IObserver obs in Subscribers)
+                {
+                    obs.NotifySelection(SelectedJob);
+                }
 
-                List<Skill> skills = Graph.InitializeJob(JobSelectorBox.Text);
+                /*List<Skill> skills = Graph.InitializeJob(JobSelectorBox.Text);
                 short a = 0;
                 foreach (Skill skill in skills)
                 {
@@ -60,7 +65,7 @@ namespace SkillSimulator
                 }
 
                 NotificationLabel.Text = "Skill Points Left: " + Graph.MaxSkillPoints;
-                NotificationLabel.ForeColor = Color.DarkBlue;
+                NotificationLabel.ForeColor = Color.DarkBlue;*/
             }
         }
 
@@ -107,12 +112,24 @@ namespace SkillSimulator
             }
         }
 
+        public void HideROSpecifics()
+        {
+            this.JobSelectorBox.Visible = false;
+            this.InitializeButton.Visible = false;
+        }
+
+        public void ShowROSpecifics()
+        {
+            this.JobSelectorBox.Visible = true;
+            this.InitializeButton.Visible = true;
+        }
+
         private void ROSimulatorToolItem_Click(object sender, EventArgs e)
         {
             SelectedSimulator = Constants.ROSimulator;
             foreach (IObserver obs in Subscribers)
             {
-                obs.NotifySelection();
+                obs.NotifyNew(Constants.ROSimulator);
             }
         }
 
@@ -121,7 +138,7 @@ namespace SkillSimulator
             SelectedSimulator = Constants.LoLSimulator;
             foreach (IObserver obs in Subscribers)
             {
-                obs.NotifySelection();
+                obs.NotifyNew(Constants.LoLSimulator);
             }
         }
 

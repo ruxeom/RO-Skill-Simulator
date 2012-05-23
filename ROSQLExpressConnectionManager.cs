@@ -9,17 +9,17 @@ using System.Windows.Forms;
 
 namespace SkillSimulator
 {
-    public class SQLExpressConnectionManager : DBConnectionManager
+    public class ROSQLExpressConnectionManager : RODBConnectionManager
     {
-        private SQLExpressConnectionManager() { }
+        private ROSQLExpressConnectionManager() { }
 
-        public static DBConnectionManager Instance 
+        public static RODBConnectionManager Instance 
         {
             get
             {
                 if (instance == null)
                 {
-                    instance = new SQLExpressConnectionManager();
+                    instance = new ROSQLExpressConnectionManager();
                     instance.ConnectionString = "Data Source= LAPPY-II\\SQLEXPRESS ;Initial Catalog= SkillSimulator;Integrated Security=SSPI;";
                 }
                 return instance;
@@ -50,6 +50,11 @@ namespace SkillSimulator
             command.Parameters.Add(
                 new SqlParameter("@jobname", param));
             return command;
+        }
+
+        public override ArrayList GetUsablePoints(string name)
+        {
+            return null;
         }
 
         public override ArrayList ExecuteProcedure(Object procedure)

@@ -5,8 +5,8 @@ using System.Text;
 
 namespace SkillSimulator
 {
-    interface SkillBuilder
+    interface INodeBuilder
     {
-        Skill BuildSkill(object[] rawdata);
+        INode BuildNode(object[] rawdata);
     }
 }

@@ -5,9 +5,10 @@ using System.Text;
 
 namespace SkillSimulator
 {
-    interface ISet
+    public interface ISet
     {
         void SetMaxLevel(int level);
+
         int GetMaxLevel();
 
         int GetCurrentLevel();

@@ -7,10 +7,11 @@ namespace SkillSimulator
 {
     public interface IObserver
     {
-        void NotifySelection();
-        void NotifyModification();
+        void NotifyNew(int type);
+        void NotifyModification(int id, int lvl);
         void NotifySave();
         void NotifyLoad();
         void NotifyClose();
+        void NotifySelection(string name);
     }
 }

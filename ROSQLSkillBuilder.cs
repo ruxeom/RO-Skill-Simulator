@@ -5,11 +5,11 @@ using System.Text;
 
 namespace SkillSimulator
 {
-    class SQLSkillBuilder: SkillBuilder
+    class ROSQLSkillBuilder:INodeBuilder
     {
-        public SQLSkillBuilder() { }
+        public ROSQLSkillBuilder() { }
 
-        public Skill BuildSkill(object[] rawdata)
+        public INode BuildNode(object[] rawdata)
         {
             int id = (short)rawdata[0];
             String name = (String)rawdata[1];

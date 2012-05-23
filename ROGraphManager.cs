@@ -6,18 +6,18 @@ using System.Collections;
 
 namespace SkillSimulator
 {
-    class GraphManager : IGraphManager
+    class ROGraphManager : IGraphManager
     {
         public Job CurrentJob;
-        private DBConnectionManager DBManager;
-        private SkillBuilder Builder;
+        private RODBConnectionManager DBManager;
+        private ROSQLSkillBuilder Builder;
         public int MaxSkillPoints;
         public int UsedSkillPoints { get { return CurrentJob.UsedSkillPoints; } }
 
-        public GraphManager()
+        public ROGraphManager()
         {
-            DBManager = SQLExpressConnectionManager.Instance;
-            Builder = new SQLSkillBuilder();
+            DBManager = ROSQLExpressConnectionManager.Instance;
+            Builder = new ROSQLSkillBuilder();
         }
 
         public void AddJobName(string name)
@@ -27,22 +27,22 @@ namespace SkillSimulator
 
         private ArrayList GetSkills(string jobname)
         {
-            ArrayList skills = DBManager.GetSkillTree(jobname);
+            ArrayList skills = DBManager.GetNodes(jobname);
             return skills;
         }
 
-        public List<Skill> InitializeJob(string jobname)
+        public List<INode> InitializeJob(string jobname)
         {
             CurrentJob = new Job(jobname);
 
             ArrayList rawdata = GetSkills(jobname);
-            List<Skill> skills = new List<Skill>();
+            List<INode> skills = new List<INode>();
             foreach (object[] rawskill in rawdata)
             {
-                Skill temp = Builder.BuildSkill(rawskill);
+                INode temp = Builder.BuildNode(rawskill);
                 skills.Add(temp);
             }
-            CurrentJob.AddSkills(skills);
+            CurrentJob.AddNodes(skills);
             MaxSkillPoints = GetMaxSkillPoints(jobname);
             ArrayList requirements = GetSkillRequirements(jobname);
             CurrentJob.BuildRequirements(requirements);
@@ -51,7 +51,7 @@ namespace SkillSimulator
 
         public List<int[]> ModifySkillLevel(int skillid, int lvl)
         {
-            return CurrentJob.ModifySkillLevel(skillid, lvl, null);
+            return CurrentJob.ModifyNodeLevel(skillid, lvl, null);
         }
 
         public int GetMaxSkillPoints(string jobname)
@@ -62,8 +62,20 @@ namespace SkillSimulator
 
         private ArrayList GetSkillRequirements(string jobname)
         {
-            return DBManager.GetSkillRequirements(jobname);
+            return DBManager.GetEdges(jobname);
         }
 
+        public List<int[]> ModifyNodeLevel(int id, int level)
+        {
+            return null;
+        }
+
+        public Status GetStatus()
+        {
+            return null;
+        }
+
+        public void AddTree(ITree tree)
+        { }
     }
 }

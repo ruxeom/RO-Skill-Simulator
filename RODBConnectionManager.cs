@@ -6,13 +6,13 @@ using System.Text;
 
 namespace SkillSimulator
 {
-    public abstract class DBConnectionManager
+    public abstract class RODBConnectionManager: IDataManager
     {
         public string ConnectionString { get; set; }
 
-        protected static DBConnectionManager instance;
+        protected static RODBConnectionManager instance;
 
-        protected DBConnectionManager() {}
+        protected RODBConnectionManager() {}
 
         public virtual ArrayList GetSkills(string jobname) 
         {
@@ -21,14 +21,14 @@ namespace SkillSimulator
             return skilldata;
         }
 
-        public virtual ArrayList GetSkillTree(string jobname) 
+        public virtual ArrayList GetNodes(string jobname) 
         {
             Object procedure = CreateProcedure("get_skill_tree", jobname);
             ArrayList skilltreedata = ExecuteProcedure(procedure);
             return skilltreedata;
         }
 
-        public virtual ArrayList GetSkillRequirements(string jobname)
+        public virtual ArrayList GetEdges(string jobname)
         {
             Object procedure = CreateProcedure("get_skill_reqs", jobname);
             ArrayList requirements = ExecuteProcedure(procedure);
@@ -41,6 +41,8 @@ namespace SkillSimulator
             //may vary and will be left to implement
             return 0;
         }
+
+        public abstract ArrayList GetUsablePoints(string name);
 
         public virtual int GetTotalSkillPoints(string jobname) 
         {
@@ -60,5 +62,17 @@ namespace SkillSimulator
             //will vary depending on the DB used
             return null;
         }
+
+        public ArrayList GetBuildNames()
+        {
+            return null;
+        }
+
+        public ArrayList GetBuild(string name)
+        {
+            return null;
+        }
+        public void SaveBuild(string game, string type, ArrayList edges)
+        { }
     }
 }
