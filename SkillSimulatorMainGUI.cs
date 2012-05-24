@@ -46,8 +46,6 @@ namespace SkillSimulator
             if (!PrevSelectedJob.Equals(SelectedJob))
             {
                 PrevSelectedJob = SelectedJob;
-                SkillContainerPanel.Controls.Clear();
-                //maybe remove listeners from objects?
                 
                 foreach(IObserver obs in Subscribers)
                 {
@@ -98,6 +96,29 @@ namespace SkillSimulator
             }
         }
 
+        public void UpdateVisualNodes(List<int[]> modifiednodes)
+        {
+            VisualNode vs;
+            /*
+             * By modifying visual nodes manually we trigger the event listener again, so the first time
+             * it is called it will return a list of necessary modifications ordered from most dependent nodes 
+             * to least dependent ones. So we modify the value of the visual nodes in reverse order
+             * to make the second call of the listener (our "accidental" trigger) fix ONLY the least dependent 
+             * node at a time, since every step of the way the previous requirements will have already
+             * been satisfied. 
+             */
+
+            if (modifiednodes != null)
+            {
+                int[][] array = modifiednodes.ToArray();
+                for (int i = array.Length - 1; i >= 0; i--)
+                {
+                    vs = FindVisualSkill(array[i][0]);
+                    vs.LevelSelector.Value = array[i][1];
+                }
+            }
+        }
+
         public VisualNode FindVisualSkill(int id)
         {
             VisualNode vs = null;
@@ -113,19 +134,25 @@ namespace SkillSimulator
             return vs;
         }
 
-        public void RefreshNotification(int skillpoints)
+        //public void RefreshNotification(int skillpoints)
+        //{
+        //    bool pointsok = (skillpoints >= 0) ? true : false;
+        //    if (pointsok)
+        //    {
+        //        NotificationLabel.Text = "Skill Points Left: " + skillpoints;
+        //        NotificationLabel.ForeColor = Color.DarkBlue;
+        //    }
+        //    else
+        //    {
+        //        NotificationLabel.Text = "Over: " + -skillpoints;
+        //        NotificationLabel.ForeColor = Color.DarkRed;
+        //    }
+        //}
+
+        public void SetStatus(Status status)
         {
-            bool pointsok = (skillpoints >= 0) ? true : false;
-            if (pointsok)
-            {
-                NotificationLabel.Text = "Skill Points Left: " + skillpoints;
-                NotificationLabel.ForeColor = Color.DarkBlue;
-            }
-            else
-            {
-                NotificationLabel.Text = "Over: " + -skillpoints;
-                NotificationLabel.ForeColor = Color.DarkRed;
-            }
+            NotificationLabel.Text = status.Content;
+            NotificationLabel.ForeColor = (status.IsGood) ? Color.DarkBlue : Color.DarkRed;
         }
 
         public void HideROSpecifics()
@@ -142,6 +169,7 @@ namespace SkillSimulator
 
         private void ROSimulatorToolItem_Click(object sender, EventArgs e)
         {
+            ClearVisualNodes();
             SelectedSimulator = Constants.ROSimulator;
             foreach (IObserver obs in Subscribers)
             {
@@ -151,11 +179,18 @@ namespace SkillSimulator
 
         private void LoLSimulatorToolItem_Click(object sender, EventArgs e)
         {
+            ClearVisualNodes();
             SelectedSimulator = Constants.LoLSimulator;
             foreach (IObserver obs in Subscribers)
             {
                 obs.NotifyNew(Constants.LoLSimulator);
             }
+        }
+
+        public void ClearVisualNodes()
+        {
+            //maybe remove listeners from objects?
+            SkillContainerPanel.Controls.Clear();
         }
 
         public void Subscribe(IObserver observer)

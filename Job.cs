@@ -11,6 +11,7 @@ namespace SkillSimulator
         //public List<Skill> Skills = new List<Skill>();
         private Dictionary<int, INode> SkillDictionary;
         public String Name;
+        private int ID;
         public int Maxlvl;
         public int UsedSkillPoints
         {
@@ -33,6 +34,16 @@ namespace SkillSimulator
         public Job(String name)
         {
             this.Name = name;
+        }
+
+        public void SetID(int id)
+        {
+            this.ID = id;
+        }
+
+        public int GetID()
+        {
+            return this.ID;
         }
 
         public void SetMaxLevel(int level)

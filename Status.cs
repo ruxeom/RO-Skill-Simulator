@@ -5,15 +5,17 @@ using System.Text;
 
 namespace SkillSimulator
 {
-    class Status
+    public class Status
     {
-        string Content;
-        bool IsGood;
+        private string _Content;
+        private bool _IsGood;
+        public string Content { get { return _Content; } }
+        public bool IsGood { get { return _IsGood; } }
 
         public Status(string content, bool isgood)
         {
-            Content = content;
-            IsGood = isgood;
+            _Content = content;
+            _IsGood = isgood;
         }
     }
 }

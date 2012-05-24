@@ -15,7 +15,7 @@ namespace SkillSimulator
             NodeBuilder = new ROSQLSkillBuilder();
         }
 
-        List<ITree> ITreeBuilder.BuildTreesFromData(ArrayList nodelist)
+        public List<ITree> BuildTreesFromData(ArrayList nodelist)
         {
             int index = 0;
             Dictionary<int, int> treeindex = new Dictionary<int, int>();
@@ -37,12 +37,19 @@ namespace SkillSimulator
                 else 
                 {
                     Job job = new Job();
+                    job.SetID(treeid);
                     job.AddNode(skill);
                     trees.Add(job);
                     treeindex.Add(treeid, index++);
                 }
             }
             return trees;
+        }
+
+        public List<ITree> BuildTreesFromData(ArrayList nodelist, ArrayList UsablePoints)
+        {
+            List<ITree> trees = BuildTreesFromData(nodelist);
+            return null;
         }
 
         public void AddEdgesToTrees(List<ITree> trees, ArrayList edgedata)

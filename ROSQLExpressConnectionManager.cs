@@ -33,7 +33,7 @@ namespace SkillSimulator
             return 0;
         }
 
-        public override int GetTotalSkillPoints(string jobname)
+        public override int GetTotalUsablePoints(string jobname)
         {
             Object procedure = CreateProcedure("get_total_skill_points", jobname);
             ArrayList rawdata = ExecuteProcedure(procedure);
@@ -54,7 +54,11 @@ namespace SkillSimulator
 
         public override ArrayList GetUsablePoints(string name)
         {
-            return null;
+            int points = GetTotalUsablePoints(name);
+            ArrayList pointlist = new ArrayList();
+            pointlist.Add(points);
+
+            return pointlist;
         }
 
         public override ArrayList ExecuteProcedure(Object procedure)

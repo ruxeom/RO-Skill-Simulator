@@ -44,7 +44,7 @@ namespace SkillSimulator
 
         public abstract ArrayList GetUsablePoints(string name);
 
-        public virtual int GetTotalSkillPoints(string jobname) 
+        public virtual int GetTotalUsablePoints(string jobname) 
         {
             //managing individual parts of the objects received 
             //may vary and will be left to implement

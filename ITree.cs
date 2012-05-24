@@ -7,6 +7,10 @@ namespace SkillSimulator
 {
     public interface ITree : ISet
     {
+        void SetID(int id);
+
+        int GetID();
+
         void SetMaxLevel(int level);
 
         int GetMaxLevel();
