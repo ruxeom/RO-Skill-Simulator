@@ -20,10 +20,10 @@ namespace SkillSimulator
         public Director()
         {
             GUIManager = new SkillSimulatorMainGUI();
-            GraphManager = new ROGraphManager();
-            TreeBuilder = new ROTreeBuilder();
+            //GraphManager = new ROGraphManager();
+            //TreeBuilder = new ROTreeBuilder();
             GUIManager.Subscribe(this);
-            DataSourceManager = ROSQLExpressConnectionManager.Instance;
+            //DataSourceManager = ROSQLExpressConnectionManager.Instance;
             Application.Run(GUIManager);
         }
 
@@ -50,8 +50,8 @@ namespace SkillSimulator
 
             //A LoL simulator doesn't need further specification, so we can create it now,
             //but it has to be done AFTER the Factory was created.
-            if (simtype == Constants.LoLSimulator)
-                NotifySelection("");
+            //if (simtype == Constants.LoLSimulator)
+            //    NotifySelection("");
 
         }
         public void NotifySelection(string name)
@@ -63,6 +63,7 @@ namespace SkillSimulator
             TreeBuilder.AddEdgesToTrees(trees, edgedata);
             GraphManager.AddTrees(trees);   //this method replaces the previous trees
             int usablepoints = DataSourceManager.GetTotalUsablePoints(name);
+            GraphManager.SetName(name);
             GraphManager.AddGlobalUsablePoints(usablepoints);
             GUIManager.AddVisualNodes(GraphManager.GetAllNodes());
             GUIManager.SetStatus(GraphManager.GetStatus());
@@ -74,7 +75,15 @@ namespace SkillSimulator
             GUIManager.UpdateVisualNodes(alterednodes);
             GUIManager.SetStatus(GraphManager.GetStatus());
         }
-        public void NotifySave() { }
+        public void NotifySave() 
+        {
+            if(this.Factory != null)
+                SaveDataDestinationManager.SaveBuild(
+                    (GUIManager.SelectedSimulator == Constants.ROSimulator) ? "RO" : "LoL",
+                    GraphManager.GetName(),
+                    GraphManager.GetAllNodes()
+                    );
+        }
         public void NotifyLoad() { }
         public void NotifyClose() { }
         

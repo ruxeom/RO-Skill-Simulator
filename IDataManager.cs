@@ -14,6 +14,6 @@ namespace SkillSimulator
         int GetTotalUsablePoints(string name);
         ArrayList GetBuildNames();
         ArrayList GetBuild(string name);
-        void SaveBuild(string game, string type, ArrayList edges);
+        void SaveBuild(string game, string type, List<INode> nodes);
     }
 }

@@ -72,7 +72,8 @@ namespace SkillSimulator
         {
             return null;
         }
-        public void SaveBuild(string game, string type, ArrayList edges)
+        
+        public void SaveBuild(string game, string type, List<INode> nodes)
         { }
     }
 }

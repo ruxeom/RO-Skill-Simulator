@@ -10,7 +10,7 @@ namespace SkillSimulator
     {
         private List<ITree> Trees;
 
-        //public Job CurrentJob;
+        private string Name;
         private RODBConnectionManager DBManager;
         private ROSQLSkillBuilder Builder;
         private int MaxSkillPoints;
@@ -120,6 +120,16 @@ namespace SkillSimulator
         public void AddGlobalUsablePoints(int totalpoints)
         {
             this.MaxSkillPoints = totalpoints;
+        }
+
+        public void SetName(string name)
+        {
+            this.Name = name;
+        }
+
+        public string GetName()
+        {
+            return this.Name;
         }
     }
 }

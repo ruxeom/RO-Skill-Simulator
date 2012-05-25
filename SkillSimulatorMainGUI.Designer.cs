@@ -66,14 +66,16 @@
             // OpenToolItem
             // 
             this.OpenToolItem.Name = "OpenToolItem";
-            this.OpenToolItem.Size = new System.Drawing.Size(103, 22);
+            this.OpenToolItem.Size = new System.Drawing.Size(152, 22);
             this.OpenToolItem.Text = "&Open";
+            this.OpenToolItem.Click += new System.EventHandler(this.OpenToolItem_Click);
             // 
             // SaveToolItem
             // 
             this.SaveToolItem.Name = "SaveToolItem";
-            this.SaveToolItem.Size = new System.Drawing.Size(103, 22);
+            this.SaveToolItem.Size = new System.Drawing.Size(152, 22);
             this.SaveToolItem.Text = "&Save";
+            this.SaveToolItem.Click += new System.EventHandler(this.SaveToolItem_Click);
             // 
             // NewToolItem
             // 
@@ -81,7 +83,7 @@
             this.ROSimulatorToolItem,
             this.LoLSimulatorToolItem});
             this.NewToolItem.Name = "NewToolItem";
-            this.NewToolItem.Size = new System.Drawing.Size(103, 22);
+            this.NewToolItem.Size = new System.Drawing.Size(152, 22);
             this.NewToolItem.Text = "&New";
             // 
             // ROSimulatorToolItem

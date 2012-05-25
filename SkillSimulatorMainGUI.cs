@@ -210,5 +210,17 @@ namespace SkillSimulator
             }
         }
 
+        private void SaveToolItem_Click(object sender, EventArgs e)
+        {
+            foreach (IObserver obs in Subscribers)
+                obs.NotifySave();
+        }
+
+        private void OpenToolItem_Click(object sender, EventArgs e)
+        {
+            foreach (IObserver obs in Subscribers)
+                obs.NotifyLoad();
+        }
+
     }
 }

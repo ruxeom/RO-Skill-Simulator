@@ -13,5 +13,7 @@ namespace SkillSimulator
         List<int[]> ModifyNodeLevel(int id, int level);
         Status GetStatus();
         void AddGlobalUsablePoints(int points);
+        void SetName(string name);
+        string GetName();
     }
 }

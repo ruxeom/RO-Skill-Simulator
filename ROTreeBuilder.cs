@@ -80,5 +80,8 @@ namespace SkillSimulator
             }
             return null;
         }
+
+        public void ApplyBuildToTrees(List<ITree> trees, ArrayList BuildData)
+        { }
     }
 }

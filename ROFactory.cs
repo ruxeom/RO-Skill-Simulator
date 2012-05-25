@@ -14,12 +14,12 @@ namespace SkillSimulator
 
         public IDataManager CreateSaveDataDestination()
         {
-            return null;
+            return new ROFileCommunicationManager();
         }
 
         public IDataManager CreateLoadDataSource()
         {
-            return null;
+            return new ROFileCommunicationManager();
         }
 
         public IGraphManager CreateGraphManager()
