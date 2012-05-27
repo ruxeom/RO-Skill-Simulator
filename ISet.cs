@@ -16,5 +16,13 @@ namespace SkillSimulator
         int GetCurrentLevel();
 
         void SetCurrentLevel(int level, ref List<int[]> alteredlist);
+
+        void SetID(int id);
+
+        void SetName(string name);
+
+        int GetID();
+
+        string GetName();
     }
 }

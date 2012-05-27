@@ -13,7 +13,7 @@ namespace SkillSimulator
         ArrayList GetUsablePoints(string name);
         int GetTotalUsablePoints(string name);
         ArrayList GetBuildNames();
-        ArrayList GetBuild(string name);
+        ArrayList GetBuild();
         void SaveBuild(string game, string type, List<INode> nodes);
     }
 }

@@ -55,7 +55,7 @@ namespace SkillSimulator
 
             foreach (Skill dep in DependentSkills)
             {
-                FixDependencies();
+                dep.FixDependencies();
             }
         }
 
@@ -69,7 +69,7 @@ namespace SkillSimulator
                 if (alteredlist == null)
                     alteredlist = new List<int[]>();
                 else
-                    alteredlist.Add(new int[2] { ID, Currentlvl });
+                    alteredlist.Add(new int[2] { this.GetID(), Currentlvl });
 
                 if (prevlvl == 0 && level > 0)
                 {
@@ -100,7 +100,7 @@ namespace SkillSimulator
                 if (!RequiredLevelOk(req.RequiredObject, req.RequiredLevel))
                 {
                     this._Currentlvl = 0;
-                    alteredlist.Add(new int[2]{ID, Currentlvl});
+                    alteredlist.Add(new int[2]{this.GetID(), Currentlvl});
                     break;
                 }
             }

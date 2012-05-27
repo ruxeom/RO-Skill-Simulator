@@ -10,7 +10,7 @@ namespace SkillSimulator
     {
         //public List<Skill> Skills = new List<Skill>();
         private Dictionary<int, INode> SkillDictionary;
-        public String Name;
+        private String Name;
         private int ID;
         public int Maxlvl;
         public int UsedSkillPoints
@@ -46,6 +46,16 @@ namespace SkillSimulator
             return this.ID;
         }
 
+        public void SetName(string name)
+        {
+            Name = name;
+        }
+
+        public string GetName()
+        {
+            return Name;
+        }
+
         public void SetMaxLevel(int level)
         {
             this.Maxlvl = level;
@@ -65,7 +75,7 @@ namespace SkillSimulator
         {
             foreach(Skill s in SkillDictionary.Values.ToArray<INode>())
             {
-                if (String.ReferenceEquals(s.Name, skill))
+                if (String.ReferenceEquals(s.GetName(), skill))
                     return s;
             }
             return null;
@@ -110,7 +120,7 @@ namespace SkillSimulator
 
         public void AddNode(INode skill)
         {
-            SkillDictionary.Add(skill.ID, skill);
+            SkillDictionary.Add(skill.GetID(), skill);
         }
 
         public void AddRequirementToNode(int dependentskill, int requiredskill, int lvl)

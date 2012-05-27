@@ -7,7 +7,7 @@ namespace SkillSimulator
 {
     public abstract class INode : ISet
     {
-        public String Name;
+        protected String Name;
         //A list containing Skill/RequieredLevel pairs
         protected List<Requirement> RequiredSkills = new List<Requirement>();
         //A list of skills that depend on this one
@@ -15,7 +15,6 @@ namespace SkillSimulator
         protected int _ID;
         protected int _Maxlvl;
         protected int _Currentlvl = 0;
-        public int ID { get { return _ID; } }
         public int Maxlvl { get { return _Maxlvl; } }
         public int Currentlvl { get { return _Currentlvl; } }
 
@@ -42,6 +41,24 @@ namespace SkillSimulator
         public int GetCurrentLevel()
         {
             return _Currentlvl;
+        }
+
+        public void SetID(int id)
+        { }
+
+        public int GetID()
+        {
+            return _ID;
+        }
+
+        public void SetName(string name)
+        {
+            Name = name;
+        }
+
+        public string GetName()
+        {
+            return Name;
         }
 
         public abstract void AddRequirement(INode req, int reqlevel);

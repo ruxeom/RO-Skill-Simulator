@@ -20,10 +20,16 @@ namespace SkillSimulator
         public Director()
         {
             GUIManager = new SkillSimulatorMainGUI();
-            //GraphManager = new ROGraphManager();
-            //TreeBuilder = new ROTreeBuilder();
             GUIManager.Subscribe(this);
-            //DataSourceManager = ROSQLExpressConnectionManager.Instance;
+
+            //We initialize the Director with a base RO Implementation to avoid having
+            //null refferences
+            Factory = new ROFactory();
+            DataSourceManager = Factory.CreateDataSource();
+            SaveDataDestinationManager = Factory.CreateSaveDataDestination();
+            LoadDataSourceManager = Factory.CreateLoadDataSource();
+            TreeBuilder = Factory.CreateTreeBuilder();
+
             Application.Run(GUIManager);
         }
 
@@ -42,6 +48,7 @@ namespace SkillSimulator
                 Factory = new ROFactory();
             }
 
+            GUIManager.ClearVisualNodes();
             DataSourceManager = Factory.CreateDataSource();
             SaveDataDestinationManager = Factory.CreateSaveDataDestination();
             LoadDataSourceManager = Factory.CreateLoadDataSource();
@@ -77,15 +84,43 @@ namespace SkillSimulator
         }
         public void NotifySave() 
         {
-            if(this.Factory != null)
-                SaveDataDestinationManager.SaveBuild(
-                    (GUIManager.SelectedSimulator == Constants.ROSimulator) ? "RO" : "LoL",
-                    GraphManager.GetName(),
-                    GraphManager.GetAllNodes()
-                    );
+            SaveDataDestinationManager.SaveBuild(
+                (GUIManager.SelectedSimulator == Constants.ROSimulator) ? "RO" : "LoL",
+                GraphManager.GetName(),
+                GraphManager.GetAllNodes()
+                );
         }
-        public void NotifyLoad() { }
+        public void NotifyLoad() 
+        {
+            ArrayList data = LoadDataSourceManager.GetBuild();
+            if (data != null)
+            {
+                string simtype = (string)((object[])data[0])[0];
+                string name = (string)((object[])data[0])[1];
+                data.RemoveAt(0);
+
+                if (simtype == "RO")
+                {
+                    NotifyNew(Constants.ROSimulator);
+                    NotifySelection(name);
+                }
+                else if (simtype == "LoL")
+                    NotifyNew(Constants.LoLSimulator);
+
+                List<Requirement> mods = TreeBuilder.ApplyBuildToTrees(GraphManager.GetTrees(), data);
+                GUIManager.UpdateVisualNodes(mods);
+                GUIManager.SetStatus(GraphManager.GetStatus());
+            }
+
+        }
+
         public void NotifyClose() { }
-        
+
+        public void NotifyReset() 
+        {
+            GraphManager.Reset(); ;
+            GUIManager.ResetVisualNodes();
+            GUIManager.SetStatus(GraphManager.GetStatus());
+        }
     }
 }

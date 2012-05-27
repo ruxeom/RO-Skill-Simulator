@@ -31,8 +31,8 @@ namespace SkillSimulator
             Label = new Label();
             LevelSelector = new NumericUpDown();
 
-            _NodeID = node.ID;
-            Label.Text = node.Name;
+            _NodeID = node.GetID();
+            Label.Text = node.GetName();
 
             LevelSelector.Minimum = LevelSelector.Value = 0;
             LevelSelector.Maximum = node.Maxlvl;

@@ -131,5 +131,17 @@ namespace SkillSimulator
         {
             return this.Name;
         }
+
+        public List<ITree> GetTrees()
+        {
+            return this.Trees;
+        }
+
+        public void Reset()
+        {
+            List<INode> nodes = this.GetAllNodes();
+            foreach (INode node in nodes)
+                node.SetCurrentLevel(0);
+        }
     }
 }

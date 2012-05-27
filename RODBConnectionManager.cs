@@ -68,12 +68,14 @@ namespace SkillSimulator
             return null;
         }
 
-        public ArrayList GetBuild(string name)
+        public ArrayList GetBuild()
         {
             return null;
         }
         
         public void SaveBuild(string game, string type, List<INode> nodes)
         { }
+
+        //public List<Requirement> 
     }
 }

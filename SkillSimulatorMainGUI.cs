@@ -119,6 +119,27 @@ namespace SkillSimulator
             }
         }
 
+        public void UpdateVisualNodes(List<Requirement> modifiednodes)
+        {
+            VisualNode vs;
+            /*
+             * By modifying visual nodes manually we trigger the event listener again, so the first time
+             * it is called it will return a list of necessary modifications ordered from most dependent nodes 
+             * to least dependent ones. So we modify the value of the visual nodes in reverse order
+             * to make the second call of the listener (our "accidental" trigger) fix ONLY the least dependent 
+             * node at a time, since every step of the way the previous requirements will have already
+             * been satisfied. 
+             */
+
+            if (modifiednodes != null)
+            {
+                foreach (Requirement r in modifiednodes)
+                {
+                    vs = FindVisualSkill(r.RequiredObject.GetID());
+                    vs.LevelSelector.Value = r.RequiredLevel;
+                }
+            }
+        }
         public VisualNode FindVisualSkill(int id)
         {
             VisualNode vs = null;
@@ -193,6 +214,12 @@ namespace SkillSimulator
             SkillContainerPanel.Controls.Clear();
         }
 
+        public void ResetVisualNodes()
+        {
+            foreach (VisualNode vs in SkillContainerPanel.Controls)
+                vs.LevelSelector.Value = 0;
+        }
+
         public void Subscribe(IObserver observer)
         {
             Subscribers.Add(observer);
@@ -220,6 +247,12 @@ namespace SkillSimulator
         {
             foreach (IObserver obs in Subscribers)
                 obs.NotifyLoad();
+        }
+
+        private void resetButton_Click(object sender, EventArgs e)
+        {
+            foreach(IObserver obs in Subscribers)
+                obs.NotifyReset();
         }
 
     }

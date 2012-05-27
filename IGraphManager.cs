@@ -15,5 +15,7 @@ namespace SkillSimulator
         void AddGlobalUsablePoints(int points);
         void SetName(string name);
         string GetName();
+        List<ITree> GetTrees();
+        void Reset();
     }
 }

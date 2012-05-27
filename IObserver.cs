@@ -13,5 +13,6 @@ namespace SkillSimulator
         void NotifyLoad();
         void NotifyClose();
         void NotifySelection(string name);
+        void NotifyReset();
     }
 }

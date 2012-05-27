@@ -49,7 +49,7 @@ namespace SkillSimulator
         public List<ITree> BuildTreesFromData(ArrayList nodelist, ArrayList UsablePoints)
         {
             List<ITree> trees = BuildTreesFromData(nodelist);
-            return null;
+            return trees;
         }
 
         public void AddEdgesToTrees(List<ITree> trees, ArrayList edgedata)
@@ -81,7 +81,18 @@ namespace SkillSimulator
             return null;
         }
 
-        public void ApplyBuildToTrees(List<ITree> trees, ArrayList BuildData)
-        { }
+        public List<Requirement> ApplyBuildToTrees(List<ITree> trees, ArrayList builddata)
+        {
+            List<Requirement> mods = new List<Requirement>();
+            foreach (object[] data in builddata)
+            {
+                INode skill = GetNodeFromTrees(trees, (int)data[0]);
+                int level = (int)data[1];
+                skill.SetCurrentLevel(level);
+                Requirement edge = new Requirement(skill, level);
+                mods.Add(edge);
+            }
+            return mods;
+        }
     }
 }

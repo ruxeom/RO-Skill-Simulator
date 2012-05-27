@@ -10,6 +10,6 @@ namespace SkillSimulator
     {
         List<ITree> BuildTreesFromData(ArrayList nodelist);
         void AddEdgesToTrees(List<ITree> trees, ArrayList EdgeData);
-        void ApplyBuildToTrees(List<ITree> trees, ArrayList BuildData);
+        List<Requirement> ApplyBuildToTrees(List<ITree> trees, ArrayList BuildData);
     }
 }
