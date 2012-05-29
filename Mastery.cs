@@ -6,13 +6,13 @@ using System.Text;
 
 namespace SkillSimulator
 {
-    public class Skill : INode
+    public class Mastery : INode
     {
-
-        public Skill(int id, String name, int max)     //constructor
+        public Mastery(int id, String name, int type, int max)
         {
             this._ID = id;
             this.Name = name;
+            this._type = type;
             this._Maxlvl = max;
         }
 
@@ -53,7 +53,7 @@ namespace SkillSimulator
                 }
             }
 
-            foreach (Skill dep in DependentSkills)
+            foreach (Mastery dep in DependentSkills)
             {
                 dep.FixDependencies();
             }
@@ -61,36 +61,58 @@ namespace SkillSimulator
 
         public override void SetCurrentLevel(int level, ref List<int[]> alteredlist)
         {
+            bool canbemodified = true;
+
             if (level >= 0 && level <= _Maxlvl)
             {
                 int prevlvl = _Currentlvl;
-                _Currentlvl = level;
 
                 if (alteredlist == null)
-                    alteredlist = new List<int[]>();
-                else
-                    alteredlist.Add(new int[2] { this.GetID(), Currentlvl });
+                    alteredlist = new List<int[]>(); 
 
                 if (prevlvl == 0 && level > 0)
                 {
-                    FixRequirements(ref alteredlist);
+                    canbemodified = FixMasteryRequirements(ref alteredlist);
                 }
                 else if (prevlvl > level)
                 {
                     FixDependencies(ref alteredlist);
+                }
+                if (canbemodified)
+                {
+                    _Currentlvl = level;
+                    alteredlist.Add(new int[2] { this.GetID(), Currentlvl });
                 }
             }
         }
 
         public override void FixRequirements(ref List<int[]> alteredlist)
         {
+            /*foreach (Requirement req in RequiredSkills)
+            {
+                if (!RequiredLevelOk(req.RequiredObject, req.RequiredLevel))
+                {
+                    if (req.RequiredObject.GetID() <= 3) //this req is a tree
+                        continue;
+                    req.RequiredObject.SetCurrentLevel(req.RequiredLevel, ref alteredlist);
+                }
+            }*/
+        }
+
+        public bool FixMasteryRequirements(ref List<int[]> alteredlist)
+        {
+            bool canbemodified = true;
             foreach (Requirement req in RequiredSkills)
             {
                 if (!RequiredLevelOk(req.RequiredObject, req.RequiredLevel))
                 {
-                    req.RequiredObject.SetCurrentLevel(req.RequiredLevel, ref alteredlist);
+                    if (req.RequiredObject.GetID() <= 3) //this req is a tree
+                        canbemodified = false;
+                    else
+                        req.RequiredObject.SetCurrentLevel(req.RequiredLevel, ref alteredlist);
                 }
             }
+            return canbemodified;
         }
 
         public override void FixDependencies(ref List<int[]> alteredlist)
@@ -100,12 +122,12 @@ namespace SkillSimulator
                 if (!RequiredLevelOk(req.RequiredObject, req.RequiredLevel))
                 {
                     this._Currentlvl = 0;
-                    alteredlist.Add(new int[2]{this.GetID(), Currentlvl});
+                    alteredlist.Add(new int[2] { this.GetID(), Currentlvl });
                     break;
                 }
             }
 
-            foreach (Skill dep in DependentSkills)
+            foreach (Mastery dep in DependentSkills)
             {
                 dep.FixDependencies(ref alteredlist);
             }
@@ -118,15 +140,22 @@ namespace SkillSimulator
             return false;
         }
 
-        public override void AddRequirement(ISet reqskill, int reqlvl)     
+        public bool RequirementsAreOk()
+        {
+            foreach (Requirement req in RequiredSkills)
+                if (!RequiredLevelOk(req.RequiredObject, req.RequiredLevel))
+                    return false;
+            return true;
+        }
+
+        public override void AddRequirement(ISet reqskill, int reqlvl)
         {
             RequiredSkills.Add(new Requirement(reqskill, reqlvl));
         }
 
-        public override void AddDependency(INode next)          
+        public override void AddDependency(INode next)
         {
             this.DependentSkills.Add(next);
         }
-
     }
 }

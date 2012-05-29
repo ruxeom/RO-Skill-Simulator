@@ -2,81 +2,35 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Collections;
 
 namespace SkillSimulator
 {
-    class ROGraphManager : IGraphManager
+    class LoLGraphManager : IGraphManager
     {
         private List<ITree> Trees;
 
         private string Name;
-        private RODBConnectionManager DBManager;
-        private ROSQLSkillBuilder Builder;
-        private int MaxSkillPoints;
-        public int UsedSkillPoints 
-        { 
-            get 
+        private LOLDBConnectionManager DBManager;
+        private LOLSQLMasteryBuilder Builder;
+        private int MaxMasteryPoints;
+
+        public int UsedMasteryPoints
+        {
+            get
             {
                 int points = 0;
                 foreach (ITree tree in Trees)
                     points += tree.GetCurrentLevel();
                 return points;
-            } 
+            }
         }
 
-        public ROGraphManager()
+        public LoLGraphManager()
         {
             Trees = new List<ITree>();
-            DBManager = ROSQLExpressConnectionManager2.Instance;
-            Builder = new ROSQLSkillBuilder();
+            DBManager = LoLSQLExpressConnectionManager2.Instance;
+            Builder = new LOLSQLMasteryBuilder();
         }
-
-        //public void AddJobName(string name)
-        //{
-        //    CurrentJob.Name = name;
-        //}
-
-        //private ArrayList GetSkills(string jobname)
-        //{
-        //    ArrayList skills = DBManager.GetNodes(jobname);
-        //    return skills;
-        //}
-
-        /*public List<INode> InitializeJob(string jobname)
-        {
-            CurrentJob = new Job(jobname);
-
-            ArrayList rawdata = GetSkills(jobname);
-            List<INode> skills = new List<INode>();
-            foreach (object[] rawskill in rawdata)
-            {
-                INode temp = Builder.BuildNode(rawskill);
-                skills.Add(temp);
-            }
-            CurrentJob.AddNodes(skills);
-            MaxSkillPoints = GetMaxSkillPoints(jobname);
-            ArrayList requirements = GetSkillRequirements(jobname);
-            CurrentJob.BuildRequirements(requirements);
-            return skills;
-        }*/
-
-        /*public List<int[]> ModifySkillLevel(int skillid, int lvl)
-        {
-            List<int[]> modifiednodes = new List<int[]>();
-            return CurrentJob.ModifyNodeLevel(skillid, lvl, null);
-        }*/
-
-        //public int GetMaxSkillPoints(string jobname)
-        //{
-        //    int skillpoints = DBManager.GetTotalSkillPoints(jobname);
-        //    return skillpoints;
-        //}
-
-        //private ArrayList GetSkillRequirements(string jobname)
-        //{
-        //    return DBManager.GetEdges(jobname);
-        //}
 
         public List<int[]> ModifyNodeLevel(int skillid, int level)
         {
@@ -90,7 +44,7 @@ namespace SkillSimulator
 
         public Status GetStatus()
         {
-            int points = MaxSkillPoints - UsedSkillPoints;
+            int points = MaxMasteryPoints - UsedMasteryPoints;
             if (points >= 0)
                 return new Status("Rest: " + points, true);
 
@@ -119,7 +73,7 @@ namespace SkillSimulator
 
         public void AddGlobalUsablePoints(int totalpoints)
         {
-            this.MaxSkillPoints = totalpoints;
+            this.MaxMasteryPoints = totalpoints;
         }
 
         public void SetName(string name)

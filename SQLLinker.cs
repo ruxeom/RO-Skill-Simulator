@@ -61,7 +61,7 @@ namespace SkillSimulator
         {
             ArrayList data = new ArrayList();
             SqlConnection connection = new SqlConnection();
-            connection.ConnectionString = "Data Source= LAPPY-II\\SQLEXPRESS ;Initial Catalog= SkillSimulator;Integrated Security=SSPI;";
+            connection.ConnectionString = "Data Source= ESUMIKE-PC\\SQLEXPRESS ;Initial Catalog= SkillSimulator;Integrated Security=SSPI;";
 
             SqlCommand command = new SqlCommand(sqlcommand, connection);
             try

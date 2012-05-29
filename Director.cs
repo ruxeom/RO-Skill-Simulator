@@ -40,7 +40,7 @@ namespace SkillSimulator
             if (simtype == Constants.LoLSimulator)
             {
                 GUIManager.HideROSpecifics();
-                //Factory = new LoLFactory();
+                Factory = new LoLFactory();
             }
             else if (simtype == Constants.ROSimulator)
             {
@@ -57,8 +57,8 @@ namespace SkillSimulator
 
             //A LoL simulator doesn't need further specification, so we can create it now,
             //but it has to be done AFTER the Factory was created.
-            //if (simtype == Constants.LoLSimulator)
-            //    NotifySelection("");
+            if (simtype == Constants.LoLSimulator)
+                NotifySelection("");
 
         }
         public void NotifySelection(string name)

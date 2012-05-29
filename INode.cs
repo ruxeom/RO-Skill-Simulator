@@ -15,6 +15,7 @@ namespace SkillSimulator
         protected int _ID;
         protected int _Maxlvl;
         protected int _Currentlvl = 0;
+        protected int _type;
         public int Maxlvl { get { return _Maxlvl; } }
         public int Currentlvl { get { return _Currentlvl; } }
 
@@ -60,8 +61,13 @@ namespace SkillSimulator
         {
             return Name;
         }
+        
+        public int GetType()
+        {
+            return _type;
+        }
 
-        public abstract void AddRequirement(INode req, int reqlevel);
+        public abstract void AddRequirement(ISet req, int reqlevel);
 
         public abstract void AddDependency(INode dep);
 

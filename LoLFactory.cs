@@ -5,11 +5,11 @@ using System.Text;
 
 namespace SkillSimulator
 {
-    public class ROFactory:AbstractFactory
+    public class LoLFactory :AbstractFactory
     {
         public IDataManager CreateDataSource()
         {
-            return ROSQLExpressConnectionManager2.Instance;
+            return LoLSQLExpressConnectionManager2.Instance;
         }
 
         public IDataManager CreateSaveDataDestination()
@@ -24,12 +24,12 @@ namespace SkillSimulator
 
         public IGraphManager CreateGraphManager()
         {
-            return new ROGraphManager();
+            return new LoLGraphManager();
         }
 
         public ITreeBuilder CreateTreeBuilder()
         {
-            return new ROTreeBuilder();
+            return new LoLTreeBuilder();
         }
     }
 }
