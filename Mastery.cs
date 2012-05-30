@@ -8,12 +8,13 @@ namespace SkillSimulator
 {
     public class Mastery : INode
     {
-        public Mastery(int id, String name, int type, int max)
+        public Mastery(int id, String name, int type, int max, string description)
         {
             this._ID = id;
             this.Name = name;
             this._type = type;
             this._Maxlvl = max;
+            this.Description = description;
         }
 
         public override void SetCurrentLevel(int level) //recursively check integrity of the tree 
@@ -81,7 +82,9 @@ namespace SkillSimulator
                 if (canbemodified)
                 {
                     _Currentlvl = level;
-                    alteredlist.Add(new int[2] { this.GetID(), Currentlvl });
+                    
+                //   if(prevlvl != level)
+                        alteredlist.Add(new int[2] { this.GetID(), Currentlvl });
                 }
             }
         }

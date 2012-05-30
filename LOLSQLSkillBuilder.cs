@@ -15,7 +15,8 @@ namespace SkillSimulator
             String name = (String)rawdata[1];
             int type = (int)rawdata[2];
             int maxlvl = (int)rawdata[3];
-            Mastery mastery = new Mastery(id, name, type, maxlvl);
+            String description = (String)rawdata[4];
+            Mastery mastery = new Mastery(id, name, type, maxlvl, description);
 
             return mastery;
         }

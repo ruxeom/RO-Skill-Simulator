@@ -12,6 +12,7 @@ namespace SkillSimulator
     {
         //private Panel Panel;
         private Label Label;
+        private Label Label2;
         public NumericUpDown LevelSelector;
         private int _NodeID;
         public int NodeID { get { return this._NodeID; } }
@@ -29,10 +30,14 @@ namespace SkillSimulator
         public VisualNode(INode node)
         {
             Label = new Label();
+            Label2 = new Label();
+
             LevelSelector = new NumericUpDown();
 
             _NodeID = node.GetID();
             Label.Text = node.GetName();
+            Label2.Text = node.GetDescription();
+            
 
             LevelSelector.Minimum = LevelSelector.Value = 0;
             LevelSelector.Maximum = node.Maxlvl;
@@ -41,13 +46,19 @@ namespace SkillSimulator
             Label.Width = 200;
             LevelSelector.Height = 15;
             LevelSelector.Width = 40;
+            
+            Label2.Height = 15;
+            Label2.Width = 350;
+            
             this.Height = 40;
-            this.Width = 380;
+            this.Width = 400;
 
             this.Controls.Add(LevelSelector);
             this.Controls.Add(Label);
+            this.Controls.Add(Label2);
 
             LevelSelector.Location = new Point(220, 0);
+            Label2.Location = new Point(260,0);
             LevelSelector.ValueChanged += new EventHandler(this.OnChanged);
         }
 
