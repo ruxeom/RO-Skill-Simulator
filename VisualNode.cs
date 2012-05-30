@@ -48,10 +48,10 @@ namespace SkillSimulator
             LevelSelector.Width = 40;
             
             Label2.Height = 15;
-            Label2.Width = 350;
+            Label2.Width = 450;
             
             this.Height = 40;
-            this.Width = 400;
+            this.Width = 550;
 
             this.Controls.Add(LevelSelector);
             this.Controls.Add(Label);
